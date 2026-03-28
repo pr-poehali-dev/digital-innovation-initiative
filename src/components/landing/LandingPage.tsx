@@ -43,7 +43,7 @@ export default function LandingPage() {
 
   return (
     <Layout>
-      <nav className="fixed top-0 right-0 h-screen flex flex-col justify-center z-30 p-4">
+      <nav className="hidden md:flex fixed top-0 right-0 h-screen flex-col justify-center z-30 p-4">
         {sections.map((section, index) => (
           <button
             key={section.id}
