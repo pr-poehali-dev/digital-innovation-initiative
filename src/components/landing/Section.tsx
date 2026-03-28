@@ -6,7 +6,7 @@ import type { SectionProps } from "@/types"
 import func2url from "@/func2url.json"
 
 const ACCENT = "#FF4D00"
-const GOLD = "#D4A84B"
+const GOLD = "#FFD700"
 
 const anim = (delay = 0) => ({
   initial: { opacity: 0, y: 40 },
