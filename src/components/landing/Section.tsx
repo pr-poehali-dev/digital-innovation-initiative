@@ -132,12 +132,12 @@ function SolutionSection({ isActive }: { isActive: boolean }) {
 
 function ResultsSection({ isActive }: { isActive: boolean }) {
   const stats = [
-    { value: "120+", label: "Проектов сдано" },
+    { value: "500+", label: "Проектов сдано" },
     { value: "×3.5", label: "Среднее увеличение просмотров" },
     { value: "40+", label: "Постоянных клиентов" },
-    { value: "2 дня", label: "Средний срок сдачи" },
+    { value: "1–2 дня", label: "Средний срок сдачи" },
   ]
-  const brands = ["Nike", "Reels Agency", "ProSport", "TechHub", "MediaOne"]
+  const brands = ["ЖЕЛЕЗНО", "Арсен Маркарян", "Михаил Гребенюк", "Samarth Sammasati"]
 
   return (
     <section id="results" className="relative h-screen w-full snap-start flex flex-col justify-center px-8 md:px-16 lg:px-24">
@@ -163,6 +163,61 @@ function ResultsSection({ isActive }: { isActive: boolean }) {
           ))}
         </div>
       </motion.div>
+    </section>
+  )
+}
+
+function BeforeAfterSection({ isActive }: { isActive: boolean }) {
+  return (
+    <section id="before-after" className="relative h-screen w-full snap-start flex flex-col justify-center px-8 md:px-16 lg:px-24 overflow-hidden">
+      <motion.p className="text-sm tracking-[0.3em] uppercase mb-4" style={{ color: ACCENT }} {...anim(0)}>
+        Разница очевидна
+      </motion.p>
+      <motion.h2 className="text-4xl md:text-6xl lg:text-7xl font-black text-white mb-10" {...anim(0.1)}>
+        БЫЛО — СТАЛО
+      </motion.h2>
+      <div className="flex flex-row gap-8 items-start">
+        {/* БЫЛО */}
+        <motion.div className="flex flex-col items-center" {...anim(0.2)}>
+          <div className="relative rounded-2xl overflow-hidden border-2 border-neutral-700 w-[180px] md:w-[220px]" style={{ aspectRatio: '9/16' }}>
+            <img
+              src="https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/679ae59d-91fb-44e7-8f6e-66e8af8fbcbb.jpg"
+              alt="До монтажа"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute bottom-3 left-3 flex items-center gap-1 bg-black/50 rounded-full px-2 py-0.5">
+              <Icon name="Eye" size={12} className="text-white" />
+              <span className="text-white font-bold text-xs">5 789</span>
+            </div>
+          </div>
+          <p className="mt-3 text-neutral-500 text-xs tracking-widest uppercase font-semibold">До</p>
+        </motion.div>
+
+        {/* Стрелка */}
+        <motion.div className="flex items-center self-center" {...anim(0.35)}>
+          <Icon name="ArrowRight" size={28} style={{ color: ACCENT }} />
+        </motion.div>
+
+        {/* СТАЛО */}
+        <motion.div className="flex flex-col items-center" {...anim(0.45)}>
+          <div className="relative rounded-2xl overflow-hidden w-[180px] md:w-[220px]" style={{ aspectRatio: '9/16', border: `2px solid ${ACCENT}` }}>
+            <img
+              src="https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/6e6e3bea-44c5-4a87-a9f5-2adb7dccf18f.jpg"
+              alt="После монтажа"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute bottom-3 left-3 flex items-center gap-1 bg-black/50 rounded-full px-2 py-0.5">
+              <Icon name="Eye" size={12} className="text-white" />
+              <span className="font-black text-sm" style={{ color: ACCENT }}>600 тыс.</span>
+            </div>
+          </div>
+          <p className="mt-3 text-xs tracking-widest uppercase font-semibold" style={{ color: ACCENT }}>После</p>
+        </motion.div>
+      </div>
+
+      <motion.p className="mt-8 text-neutral-500 text-sm max-w-sm leading-relaxed" {...anim(0.55)}>
+        Тот же контент — другой монтаж. Просмотры выросли с <span className="text-white font-semibold">5 789</span> до <span className="font-bold" style={{ color: ACCENT }}>600 000</span>
+      </motion.p>
     </section>
   )
 }
@@ -305,6 +360,7 @@ export default function Section({ id, variant, title, subtitle, content, isActiv
   if (variant === 'problem') return <ProblemSection isActive={isActive} />
   if (variant === 'solution') return <SolutionSection isActive={isActive} />
   if (variant === 'results') return <ResultsSection isActive={isActive} />
+  if (variant === 'before-after') return <BeforeAfterSection isActive={isActive} />
   if (variant === 'portfolio') return <PortfolioSection isActive={isActive} />
   if (variant === 'testimonials') return <TestimonialsSection isActive={isActive} />
   if (variant === 'process') return <ProcessSection isActive={isActive} />

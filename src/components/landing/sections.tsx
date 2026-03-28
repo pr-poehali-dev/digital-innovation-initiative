@@ -26,6 +26,12 @@ export const sections: Section[] = [
     content: '',
   },
   {
+    id: 'before-after',
+    variant: 'before-after',
+    title: 'БЫЛО — СТАЛО',
+    content: '',
+  },
+  {
     id: 'portfolio',
     variant: 'portfolio',
     title: 'Примеры работ.',
