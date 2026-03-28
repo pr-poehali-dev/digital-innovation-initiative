@@ -41,8 +41,7 @@ function HeroSection({ isActive }: { isActive: boolean }) {
           Монтаж, который продаёт
         </motion.p>
         <motion.h1
-          className="text-5xl sm:text-7xl md:text-8xl lg:text-[10rem] font-black tracking-tight leading-none"
-          style={{ color: GOLD }}
+          className="text-5xl sm:text-7xl md:text-8xl lg:text-[10rem] font-black tracking-tight leading-none text-white"
           {...anim(0.1)}
         >
           VILMORT
