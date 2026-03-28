@@ -31,15 +31,6 @@ const animScale = (delay = 0) => ({
 function HeroSection({ isActive }: { isActive: boolean }) {
   return (
     <section id="hero" className="relative h-screen w-full snap-start flex flex-col items-center justify-center overflow-hidden">
-      <div className="absolute inset-0 bg-black/60 z-10" />
-      <video
-        className="absolute inset-0 w-full h-full object-cover"
-        autoPlay
-        muted
-        loop
-        playsInline
-        src="https://www.w3schools.com/html/mov_bbb.mp4"
-      />
       <div className="relative z-20 flex flex-col items-center text-center px-8">
         <motion.p
           className="text-sm md:text-base tracking-[0.4em] uppercase mb-4"
@@ -330,8 +321,8 @@ function PortfolioSection({ isActive }: { isActive: boolean }) {
 
 function TestimonialsSection({ isActive }: { isActive: boolean }) {
   const reviews = [
-    { name: "Алексей К.", role: "Основатель ProSport", text: "После перехода на монтаж от Vilmort просмотры выросли втрое. Контент стал выглядеть как у топ-блогеров." },
-    { name: "Марина Д.", role: "SMM-директор TechHub", text: "Быстро, чётко, с душой. Сдают в срок и сразу понимают задачу. Работаем уже год." },
+    { name: "Алексей К.", role: "Маркетолог", text: "После перехода на монтаж от Vilmort просмотры выросли втрое. Контент стал выглядеть как у топ-блогеров." },
+    { name: "Марина Д.", role: "SMM-директор", text: "Быстро, чётко, с душой. Сдают в срок и сразу понимают задачу. Работаем уже год." },
     { name: "Игорь В.", role: "YouTube-блогер, 400K", text: "Vilmort вытащили мой канал из застоя. Новый стиль монтажа — и подписчики сами пишут, что стало иначе." },
   ]
 
@@ -363,7 +354,7 @@ function TestimonialsSection({ isActive }: { isActive: boolean }) {
 
 function ProcessSection({ isActive }: { isActive: boolean }) {
   const steps = [
-    { num: "01", title: "Бриф", desc: "Заполняешь форму или созваниваемся — разбираем задачу, стиль и сроки" },
+    { num: "01", title: "Договариваемся", desc: "Договариваемся о монтаже и ценнике — разбираем задачу, стиль и сроки" },
     { num: "02", title: "Исходники", desc: "Загружаешь материалы в удобный для тебя способ" },
     { num: "03", title: "Монтаж", desc: "Команда приступает — первая версия готова за 1–2 дня" },
     { num: "04", title: "Правки", desc: "До 3 итераций правок включены. Сдаём файл в любом формате" },
@@ -402,9 +393,13 @@ function CTASection({ isActive, buttonText, buttonHref }: { isActive: boolean; b
       >
         Готов к мощному контенту?
       </motion.h2>
-      <motion.p className="text-lg text-neutral-400 max-w-xl mb-10" {...anim(0.2)}>
-        Оставь заявку — расскажем о задачах, подберём формат и стартуем в течение 2 дней.
+      <motion.p className="text-lg text-neutral-400 max-w-xl mb-6" {...anim(0.2)}>
+        Оставь заявку — сделаем тебе пробный монтаж.
       </motion.p>
+      <motion.div className="flex items-center gap-4 mb-10" {...anim(0.28)}>
+        <span className="text-2xl font-bold text-neutral-500 line-through">от 1500р</span>
+        <span className="text-2xl font-bold" style={{ color: '#22c55e' }}>от 800р</span>
+      </motion.div>
       <motion.div {...anim(0.35)}>
         <Button
           asChild
@@ -412,7 +407,7 @@ function CTASection({ isActive, buttonText, buttonHref }: { isActive: boolean; b
           className="text-black font-bold text-base px-10 py-6 tracking-widest uppercase hover:opacity-90 transition-opacity"
           style={{ backgroundColor: ACCENT, border: 'none' }}
         >
-          <a href={buttonHref || '#'} target="_blank" rel="noopener noreferrer">
+          <a href="https://t.me/ViIlmort" target="_blank" rel="noopener noreferrer">
             {buttonText || 'ЗАКАЗАТЬ МОНТАЖ'}
           </a>
         </Button>
