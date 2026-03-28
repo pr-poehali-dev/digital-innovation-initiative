@@ -1,0 +1,12 @@
+{
+  "tests": [
+    {
+      "name": "Get reels list",
+      "method": "GET",
+      "path": "/",
+      "expectedStatus": 200,
+      "expectedBody": {"reels": []},
+      "bodyMatcher": "partial"
+    }
+  ]
+}

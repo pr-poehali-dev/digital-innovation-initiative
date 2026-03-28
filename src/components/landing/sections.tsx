@@ -34,7 +34,7 @@ export const sections: Section[] = [
   {
     id: 'portfolio',
     variant: 'portfolio',
-    title: 'Примеры работ.',
+    title: 'Уровень нашего монтажа.',
     content: '',
   },
   {

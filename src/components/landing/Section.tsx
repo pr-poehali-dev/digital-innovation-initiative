@@ -1,7 +1,9 @@
 import { motion } from "framer-motion"
+import { useEffect, useRef, useState } from "react"
 import { Button } from "@/components/ui/button"
 import Icon from "@/components/ui/icon"
 import type { SectionProps } from "@/types"
+import func2url from "@/func2url.json"
 
 const ACCENT = "#FF4D00"
 
@@ -222,42 +224,106 @@ function BeforeAfterSection({ isActive }: { isActive: boolean }) {
   )
 }
 
-function PortfolioSection({ isActive }: { isActive: boolean }) {
-  const works = [
-    { title: "Рекламный ролик", tag: "Коммерция", dur: "1:20" },
-    { title: "YouTube-шоу", tag: "Блог", dur: "12:40" },
-    { title: "Stories-серия", tag: "Instagram", dur: "0:30" },
-    { title: "Event-видео", tag: "Мероприятие", dur: "3:10" },
-    { title: "Продуктовый тизер", tag: "Реклама", dur: "0:45" },
-    { title: "Корпоративный фильм", tag: "B2B", dur: "5:00" },
-  ]
+interface Reel {
+  id: number
+  title: string
+  video_url: string
+  cover_url: string | null
+}
+
+function ReelCard({ reel, index }: { reel: Reel; index: number }) {
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const [playing, setPlaying] = useState(false)
+
+  const toggle = () => {
+    const v = videoRef.current
+    if (!v) return
+    if (playing) { v.pause(); setPlaying(false) }
+    else { v.play(); setPlaying(true) }
+  }
 
   return (
-    <section id="portfolio" className="relative h-screen w-full snap-start flex flex-col justify-center px-8 md:px-16 lg:px-24">
-      <motion.p className="text-sm tracking-[0.3em] uppercase mb-6" style={{ color: ACCENT }} {...anim(0)}>
+    <motion.div
+      className="group relative rounded-2xl overflow-hidden border border-neutral-800 bg-neutral-900 cursor-pointer hover:border-[#FF4D00] transition-colors"
+      style={{ aspectRatio: '9/16' }}
+      {...animScale(0.1 + index * 0.08)}
+      onClick={toggle}
+    >
+      <video
+        ref={videoRef}
+        src={reel.video_url}
+        poster={reel.cover_url || undefined}
+        className="absolute inset-0 w-full h-full object-cover"
+        loop
+        playsInline
+        preload="metadata"
+      />
+      <div className={`absolute inset-0 bg-black/40 flex items-center justify-center transition-opacity ${playing ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'}`}>
+        <div className="w-14 h-14 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center">
+          <Icon name={playing ? "Pause" : "Play"} size={24} className="text-white" />
+        </div>
+      </div>
+      {reel.title && (
+        <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
+          <p className="text-white text-sm font-medium">{reel.title}</p>
+        </div>
+      )}
+    </motion.div>
+  )
+}
+
+function PortfolioSection({ isActive }: { isActive: boolean }) {
+  const [reels, setReels] = useState<Reel[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const url = (func2url as Record<string, string>)['reels-get']
+    if (!url) { setLoading(false); return }
+    fetch(url)
+      .then(r => r.json())
+      .then(d => { setReels(d.reels || []); setLoading(false) })
+      .catch(() => setLoading(false))
+  }, [])
+
+  const empty = Array.from({ length: 4 })
+
+  return (
+    <section id="portfolio" className="relative h-screen w-full snap-start flex flex-col justify-center px-8 md:px-16 lg:px-24 overflow-hidden">
+      <motion.p className="text-sm tracking-[0.3em] uppercase mb-4" style={{ color: ACCENT }} {...anim(0)}>
         Портфолио
       </motion.p>
       <motion.h2 className="text-4xl md:text-6xl font-bold text-white mb-8" {...anim(0.1)}>
-        Примеры работ.
+        Уровень нашего монтажа.
       </motion.h2>
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-4xl">
-        {works.map((w, i) => (
-          <motion.div
-            key={w.title}
-            className="group relative rounded-xl overflow-hidden border border-neutral-800 bg-neutral-900/60 aspect-video flex items-end p-4 cursor-pointer hover:border-[#FF4D00] transition-colors"
-            {...animScale(0.1 + i * 0.08)}
-          >
-            <div className="absolute inset-0 flex items-center justify-center opacity-30 group-hover:opacity-60 transition-opacity">
-              <Icon name="Play" size={32} className="text-white" />
+
+      {loading && (
+        <div className="flex gap-4 max-w-2xl">
+          {empty.map((_, i) => (
+            <div key={i} className="rounded-2xl bg-neutral-900 animate-pulse flex-1" style={{ aspectRatio: '9/16', maxWidth: 140 }} />
+          ))}
+        </div>
+      )}
+
+      {!loading && reels.length === 0 && (
+        <motion.div className="flex gap-4 max-w-2xl" {...anim(0.2)}>
+          {empty.map((_, i) => (
+            <div key={i} className="rounded-2xl border border-neutral-800 border-dashed flex-1 flex flex-col items-center justify-center text-neutral-600" style={{ aspectRatio: '9/16', maxWidth: 140 }}>
+              <Icon name="Video" size={24} />
+              <p className="text-xs mt-2 text-center px-2">Видео скоро появятся</p>
             </div>
-            <div>
-              <span className="text-xs px-2 py-0.5 rounded-full border mb-1 inline-block" style={{ borderColor: ACCENT, color: ACCENT }}>{w.tag}</span>
-              <p className="text-white text-sm font-medium">{w.title}</p>
-              <p className="text-neutral-500 text-xs">{w.dur}</p>
+          ))}
+        </motion.div>
+      )}
+
+      {!loading && reels.length > 0 && (
+        <div className="flex gap-4 overflow-x-auto pb-2" style={{ maxWidth: '100%' }}>
+          {reels.map((r, i) => (
+            <div key={r.id} className="flex-shrink-0" style={{ width: 160 }}>
+              <ReelCard reel={r} index={i} />
             </div>
-          </motion.div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </section>
   )
 }
