@@ -1,33 +1,55 @@
-import { Badge } from "@/components/ui/badge"
+import type { Section } from "@/types"
 
-export const sections = [
+export const sections: Section[] = [
   {
     id: 'hero',
-    subtitle: <Badge variant="outline" className="text-white border-white">Набор открыт</Badge>,
-    title: "Время строить будущее.",
-    showButton: true,
-    buttonText: 'Присоединиться'
+    variant: 'hero',
+    title: 'VILMORT',
+    subtitle: 'Монтаж, который продаёт',
   },
   {
-    id: 'about',
-    title: 'Почему мы?',
-    content: 'Мы предоставляем ресурсы, менторство и поддерживающее сообщество для развития ваших проектов.'
+    id: 'problem',
+    variant: 'problem',
+    title: 'Твои видео выглядят дёшево?',
+    content: 'Нет заявок. Не растут просмотры. Контент сливается с тысячами других роликов — и алгоритм тебя не замечает.',
   },
   {
-    id: 'features',
-    title: 'Что мы предлагаем',
-    content: 'Доступ к экспертным консультациям, нетворкингу и современным инструментам для ускорения вашего роста.'
+    id: 'solution',
+    variant: 'solution',
+    title: 'Монтаж, который работает на тебя.',
+    content: 'Мы не просто режем и склеиваем. Мы выстраиваем структуру, темп и визуальный язык, который удерживает зрителя и превращает просмотры в клиентов.',
+  },
+  {
+    id: 'results',
+    variant: 'results',
+    title: 'Наши результаты.',
+    content: '',
+  },
+  {
+    id: 'portfolio',
+    variant: 'portfolio',
+    title: 'Примеры работ.',
+    content: '',
   },
   {
     id: 'testimonials',
-    title: 'Истории успеха',
-    content: 'Узнайте, как участники сообщества превратили свои идеи в успешные проекты.'
+    variant: 'testimonials',
+    title: 'Что говорят клиенты.',
+    content: '',
   },
   {
-    id: 'join',
-    title: 'Начните сейчас',
-    content: 'Готовы вывести свой проект на новый уровень? Присоединяйтесь к нашему сообществу и начните строить своё будущее.',
+    id: 'process',
+    variant: 'process',
+    title: 'Как мы работаем.',
+    content: '',
+  },
+  {
+    id: 'cta',
+    variant: 'cta',
+    title: 'Готов к мощному контенту?',
+    content: 'Оставь заявку — расскажем о задачах, подберём формат и стартуем в течение 2 дней.',
     showButton: true,
-    buttonText: 'Начать'
+    buttonText: 'ЗАКАЗАТЬ МОНТАЖ',
+    buttonHref: '#',
   },
 ]
