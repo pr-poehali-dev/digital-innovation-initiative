@@ -73,16 +73,19 @@ function HeroSection({ isActive }: { isActive: boolean }) {
 
       <div className="relative z-20 flex flex-col items-center text-center px-6">
         <motion.div {...anim(0)} className="mb-6">
-          <p className="text-sm md:text-base font-bold tracking-[0.15em] uppercase mb-1" style={{ color: ACCENT }}>
+          <p className="text-xs md:text-sm font-light tracking-[0.3em] uppercase mb-1" style={{ color: ACCENT }}>
             Монтаж для экспертов и бизнеса
           </p>
-          <p className="text-sm md:text-base font-bold tracking-[0.15em] uppercase" style={{ color: ACCENT }}>
+          <p className="text-xs md:text-sm font-light tracking-[0.3em] uppercase" style={{ color: ACCENT }}>
             Быстрее и качественнее, чем у фрилансеров
           </p>
         </motion.div>
         <motion.h1
           className="text-5xl sm:text-7xl md:text-8xl lg:text-[10rem] font-black tracking-tight leading-none"
-          style={{ color: '#E8A800' }}
+          style={{
+            color: '#ffffff',
+            textShadow: '0 0 40px rgba(255,255,255,0.6), 0 0 80px rgba(255,255,255,0.3), 0 0 120px rgba(255,255,255,0.15)',
+          }}
           {...anim(0.1)}
         >
           VILMORT
