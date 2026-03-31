@@ -82,7 +82,7 @@ function HeroSection({ isActive }: { isActive: boolean }) {
         </motion.div>
         <motion.h1
           className="text-5xl sm:text-7xl md:text-8xl lg:text-[10rem] font-black tracking-tight leading-none"
-          style={{ color: '#D4A017' }}
+          style={{ color: '#E8A800' }}
           {...anim(0.1)}
         >
           VILMORT
