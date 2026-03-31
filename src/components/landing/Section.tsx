@@ -54,16 +54,16 @@ function HeroSection() {
         ))}
       </div>
       <div className="relative z-20 flex flex-col items-center text-center px-6 w-full">
-        <div className="mb-16 md:mb-20">
-          <p className="text-xs md:text-sm font-light tracking-[0.3em] uppercase mb-1" style={{ color: ACCENT }}>
-            Монтаж для экспертов и бизнеса:
+        <div className="mb-10 md:mb-20">
+          <p className="text-[9px] md:text-sm font-light tracking-[0.2em] md:tracking-[0.3em] uppercase mb-1" style={{ color: ACCENT }}>
+            Монтаж для экспертов и бизнеса
           </p>
-          <p className="text-xs md:text-sm font-light tracking-[0.3em] uppercase" style={{ color: ACCENT }}>
-            Быстрее и качественнее, чем у фрилансеров
+          <p className="text-[9px] md:text-sm font-light tracking-[0.2em] md:tracking-[0.3em] uppercase" style={{ color: ACCENT }}>
+            Быстрее и качественнее фрилансеров
           </p>
         </div>
         <h1
-          className="text-5xl sm:text-7xl md:text-8xl lg:text-[10rem] font-black tracking-tight leading-none"
+          className="text-[2.8rem] sm:text-7xl md:text-8xl lg:text-[10rem] font-black tracking-tight leading-none"
           style={{ color: '#fff', textShadow: '0 0 40px rgba(255,255,255,0.6), 0 0 80px rgba(255,255,255,0.3), 0 0 120px rgba(255,255,255,0.15)' }}
         >
           VILMORT
@@ -184,6 +184,57 @@ function ResultsSection() {
   )
 }
 
+function BeforeAfterPair({
+  beforeSrc, afterSrc,
+  beforeLabel, afterLabel,
+  beforeStat, afterStat,
+  description,
+}: {
+  beforeSrc: string; afterSrc: string;
+  beforeLabel: string; afterLabel: string;
+  beforeStat: string; afterStat: string;
+  description: React.ReactNode;
+}) {
+  return (
+    <div className="flex flex-col gap-4">
+      <div className="flex flex-row gap-3 md:gap-6 items-start">
+        <div className="flex flex-col items-center flex-1">
+          <div
+            className="relative rounded-2xl overflow-hidden border-2 border-neutral-700 w-full"
+            style={{ aspectRatio: '9/16' }}
+          >
+            <img src={beforeSrc} alt="До" className="w-full h-full object-cover" />
+            <div className="absolute bottom-2 left-2 flex items-center gap-1 bg-black/70 rounded-full px-2 py-0.5">
+              <Icon name="Eye" size={9} className="text-white" />
+              <span className="text-white font-bold text-[10px]">{beforeStat}</span>
+            </div>
+          </div>
+          <p className="mt-2 text-neutral-500 text-[10px] tracking-widest uppercase font-semibold">{beforeLabel}</p>
+        </div>
+        <div className="flex items-center self-center flex-shrink-0">
+          <div className="w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: `${ACCENT}20` }}>
+            <Icon name="ArrowRight" size={16} style={{ color: ACCENT }} />
+          </div>
+        </div>
+        <div className="flex flex-col items-center flex-1">
+          <div
+            className="relative rounded-2xl overflow-hidden w-full"
+            style={{ aspectRatio: '9/16', border: `2px solid ${ACCENT}`, boxShadow: `0 0 24px ${ACCENT}50, 0 0 60px ${ACCENT}25` }}
+          >
+            <img src={afterSrc} alt="После" className="w-full h-full object-cover" />
+            <div className="absolute bottom-2 left-2 flex items-center gap-1 bg-black/70 rounded-full px-2 py-0.5">
+              <Icon name="Eye" size={9} className="text-white" />
+              <span className="font-black text-[10px]" style={{ color: ACCENT }}>{afterStat}</span>
+            </div>
+          </div>
+          <p className="mt-2 text-[10px] tracking-widest uppercase font-semibold" style={{ color: ACCENT }}>{afterLabel}</p>
+        </div>
+      </div>
+      <p className="text-neutral-400 text-xs md:text-sm leading-relaxed">{description}</p>
+    </div>
+  )
+}
+
 function BeforeAfterSection() {
   return (
     <section className="relative w-full py-20 md:py-28 px-6 md:px-16 lg:px-24 overflow-hidden">
@@ -196,42 +247,26 @@ function BeforeAfterSection() {
       >
         БЫЛО — СТАЛО
       </h2>
-      <div className="flex flex-row gap-4 md:gap-8 items-start">
-        <div className="flex flex-col items-center">
-          <div className="relative rounded-2xl overflow-hidden border-2 border-neutral-700" style={{ aspectRatio: '9/16', width: 'clamp(100px, 28vw, 240px)' }}>
-            <img src="https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/679ae59d-91fb-44e7-8f6e-66e8af8fbcbb.jpg" alt="До" className="w-full h-full object-cover" />
-            <div className="absolute bottom-2 left-2 flex items-center gap-1 bg-black/60 rounded-full px-2 py-0.5">
-              <Icon name="Eye" size={9} className="text-white" />
-              <span className="text-white font-bold text-[10px]">5 789</span>
-            </div>
-          </div>
-          <p className="mt-3 text-neutral-500 text-xs tracking-widest uppercase font-semibold">До</p>
-        </div>
-        <div className="flex items-center self-center">
-          <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: `${ACCENT}20` }}>
-            <Icon name="ArrowRight" size={18} style={{ color: ACCENT }} />
-          </div>
-        </div>
-        <div className="flex flex-col items-center">
-          <div className="relative rounded-2xl overflow-hidden" style={{ aspectRatio: '9/16', width: 'clamp(100px, 28vw, 240px)', border: `2px solid ${ACCENT}`, boxShadow: `0 0 30px ${ACCENT}30` }}>
-            <img src="https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/6e6e3bea-44c5-4a87-a9f5-2adb7dccf18f.jpg" alt="После" className="w-full h-full object-cover" />
-            <div className="absolute bottom-2 left-2 flex items-center gap-1 bg-black/60 rounded-full px-2 py-0.5">
-              <Icon name="Eye" size={9} className="text-white" />
-              <span className="font-black text-[10px]" style={{ color: ACCENT }}>600 тыс.</span>
-            </div>
-          </div>
-          <p className="mt-3 text-xs tracking-widest uppercase font-semibold" style={{ color: ACCENT }}>После</p>
-        </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16">
+        <BeforeAfterPair
+          beforeSrc="https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/679ae59d-91fb-44e7-8f6e-66e8af8fbcbb.jpg"
+          afterSrc="https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/6e6e3bea-44c5-4a87-a9f5-2adb7dccf18f.jpg"
+          beforeLabel="До"
+          afterLabel="После"
+          beforeStat="5 789"
+          afterStat="600 тыс."
+          description={<>Тот же контент — другой монтаж. Просмотры выросли с <span className="text-white font-semibold">5 789</span> до <span className="font-bold" style={{ color: ACCENT }}>600 000</span></>}
+        />
+        <BeforeAfterPair
+          beforeSrc="https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/87d24af0-814d-45d7-94d3-566edc02346c.jpg"
+          afterSrc="https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/4a9b7135-f3d7-4a57-9b1e-68a95f4ff3a0.jpg"
+          beforeLabel="До"
+          afterLabel="После"
+          beforeStat="168"
+          afterStat="68,3 тыс."
+          description={<>Одна и та же съёмка. После перемонтажа охваты выросли с <span className="text-white font-semibold">168</span> до <span className="font-bold" style={{ color: ACCENT }}>68 300</span></>}
+        />
       </div>
-      <p className="mt-6 text-neutral-500 text-sm leading-relaxed">
-        Тот же контент — другой монтаж.{' '}
-        <span className="whitespace-nowrap">
-          Просмотры выросли с{' '}
-          <span className="text-white font-semibold">5 789</span>{' '}
-          до{' '}
-          <span className="font-bold" style={{ color: ACCENT }}>600 000</span>
-        </span>
-      </p>
     </section>
   )
 }
