@@ -80,7 +80,7 @@ function HeroSection({ isActive }: { isActive: boolean }) {
       <div className="relative z-20 flex flex-col items-center text-center px-6 w-full">
         <motion.div {...anim(0)} className="mb-4">
           <p className="text-xs md:text-sm font-light tracking-[0.3em] uppercase mb-1" style={{ color: ACCENT }}>
-            Монтаж для экспертов и бизнеса
+            Монтаж для экспертов и бизнеса:
           </p>
           <p className="text-xs md:text-sm font-light tracking-[0.3em] uppercase" style={{ color: ACCENT }}>
             Быстрее и качественнее, чем у фрилансеров
