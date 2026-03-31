@@ -29,16 +29,58 @@ const animScale = (delay = 0) => ({
   transition: { duration: 0.4, delay },
 })
 
+const HERO_COVERS = [
+  "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/679ae59d-91fb-44e7-8f6e-66e8af8fbcbb.jpg",
+  "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/6e6e3bea-44c5-4a87-a9f5-2adb7dccf18f.jpg",
+  "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/679ae59d-91fb-44e7-8f6e-66e8af8fbcbb.jpg",
+  "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/6e6e3bea-44c5-4a87-a9f5-2adb7dccf18f.jpg",
+  "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/679ae59d-91fb-44e7-8f6e-66e8af8fbcbb.jpg",
+  "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/6e6e3bea-44c5-4a87-a9f5-2adb7dccf18f.jpg",
+]
+
 function HeroSection({ isActive }: { isActive: boolean }) {
+  const [offset, setOffset] = useState(0)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setOffset(prev => prev - 1)
+    }, 20)
+    return () => clearInterval(interval)
+  }, [])
+
+  const cardW = 130
+  const gap = 12
+  const total = HERO_COVERS.length
+  const trackW = (cardW + gap) * total
+
+  const normalizedOffset = ((offset % trackW) + trackW) % trackW
+
   return (
     <section id="hero" className="relative h-screen w-full snap-start flex flex-col items-center justify-center overflow-hidden">
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        <div
+          className="flex gap-3 absolute top-1/2 -translate-y-1/2"
+          style={{ transform: `translateX(${-normalizedOffset}px) translateY(-50%)`, width: trackW * 2 + 'px' }}
+        >
+          {[...HERO_COVERS, ...HERO_COVERS].map((src, i) => (
+            <div
+              key={i}
+              className="rounded-2xl overflow-hidden flex-shrink-0 border border-white/5"
+              style={{ width: cardW, aspectRatio: '9/16' }}
+            >
+              <img src={src} alt="" className="w-full h-full object-cover opacity-40" />
+            </div>
+          ))}
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/80" />
+      </div>
+
       <div className="relative z-20 flex flex-col items-center text-center px-6">
         <motion.p
           className="text-xs md:text-sm tracking-[0.3em] uppercase mb-4"
           style={{ color: ACCENT }}
           {...anim(0)}
         >
-          Монтаж, который продаёт
+          Монтаж для экспертов и бизнеса: быстрее, качественнее, чем у фрилансеров
         </motion.p>
         <motion.h1
           className="text-5xl sm:text-7xl md:text-8xl lg:text-[10rem] font-black tracking-tight leading-none text-white"
@@ -129,7 +171,7 @@ function SolutionSection({ isActive }: { isActive: boolean }) {
 function ResultsSection({ isActive }: { isActive: boolean }) {
   const stats = [
     { value: "500+", label: "Проектов сдано" },
-    { value: "×3.5", label: "Рост просмотров" },
+    { value: "×100", label: "Рост просмотров" },
     { value: "40+", label: "Постоянных клиентов" },
     { value: "1–2 дня", label: "Срок сдачи" },
   ]
@@ -325,9 +367,9 @@ function PortfolioSection({ isActive }: { isActive: boolean }) {
 
 function TestimonialsSection({ isActive }: { isActive: boolean }) {
   const reviews = [
-    { name: "Алексей К.", role: "Маркетолог", text: "После перехода на монтаж от Vilmort просмотры выросли втрое. Контент стал выглядеть как у топ-блогеров." },
-    { name: "Марина Д.", role: "SMM-директор", text: "Быстро, чётко, с душой. Сдают в срок и сразу понимают задачу. Работаем уже год." },
-    { name: "Игорь В.", role: "YouTube-блогер, 400K", text: "Vilmort вытащили мой канал из застоя. Новый стиль монтажа — и подписчики сами пишут, что стало иначе." },
+    { name: "Алексей К.", role: "Маркетолог · Сотрудничаем более 3 месяцев", text: "После перехода на монтаж от Vilmort просмотры выросли втрое. Контент стал выглядеть как у топ-блогеров." },
+    { name: "Марина Д.", role: "SMM-директор · Сотрудничаем более 6 месяцев", text: "Быстро, чётко, с душой. Сдают в срок и сразу понимают задачу. Работаем уже год." },
+    { name: "Игорь В.", role: "YouTube-блогер, 400K · Сотрудничаем более 1 года", text: "Vilmort вытащили мой канал из застоя. Новый стиль монтажа — и подписчики сами пишут, что стало иначе." },
   ]
 
   return (
@@ -358,7 +400,7 @@ function TestimonialsSection({ isActive }: { isActive: boolean }) {
 
 function ProcessSection({ isActive }: { isActive: boolean }) {
   const steps = [
-    { num: "01", title: "Договариваемся", desc: "Договариваемся о монтаже и ценнике — разбираем задачу, стиль и сроки" },
+    { num: "01", title: "Согласование", desc: "Договариваемся о монтаже и ценнике — разбираем задачу, стиль и сроки" },
     { num: "02", title: "Исходники", desc: "Загружаешь материалы в удобный для тебя способ" },
     { num: "03", title: "Монтаж", desc: "Команда приступает — первая версия готова за 1–2 дня" },
     { num: "04", title: "Правки", desc: "До 3 итераций правок включены. Сдаём файл в любом формате" },
@@ -389,7 +431,7 @@ function CTASection({ isActive, buttonText, buttonHref }: { isActive: boolean; b
   return (
     <section id="cta" className="relative h-screen w-full snap-start flex flex-col items-center justify-center text-center px-6">
       <motion.p className="text-xs tracking-[0.3em] uppercase mb-4" style={{ color: ACCENT }} {...anim(0)}>
-        Старт за 2 дня
+        Старт за 1 день
       </motion.p>
       <motion.h2
         className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black text-white leading-tight max-w-3xl mb-4 md:mb-6"
@@ -397,22 +439,18 @@ function CTASection({ isActive, buttonText, buttonHref }: { isActive: boolean; b
       >
         Готов к мощному контенту?
       </motion.h2>
-      <motion.p className="text-base md:text-lg text-neutral-400 max-w-xl mb-4 md:mb-6" {...anim(0.2)}>
-        Оставь заявку — сделаем тебе пробный монтаж.
+      <motion.p className="text-base md:text-lg text-neutral-400 max-w-xl mb-8 md:mb-10" {...anim(0.2)}>
+        Напиши в Telegram — сделаем тебе бесплатный разбор и подберём монтаж
       </motion.p>
-      <motion.div className="flex items-center gap-4 mb-8 md:mb-10" {...anim(0.28)}>
-        <span className="text-xl md:text-2xl font-bold text-neutral-500 line-through">от 1500р</span>
-        <span className="text-xl md:text-2xl font-bold" style={{ color: '#22c55e' }}>от 800р</span>
-      </motion.div>
       <motion.div {...anim(0.35)}>
         <Button
           asChild
           size="lg"
-          className="text-black font-bold text-sm md:text-base px-8 md:px-10 py-5 md:py-6 tracking-widest uppercase hover:opacity-90 transition-opacity"
-          style={{ backgroundColor: ACCENT, border: 'none' }}
+          className="text-white font-bold text-sm md:text-base px-8 md:px-10 py-5 md:py-6 tracking-widest uppercase hover:opacity-90 transition-opacity"
+          style={{ backgroundColor: '#0088cc', border: 'none' }}
         >
-          <a href="https://t.me/ViIlmort" target="_blank" rel="noopener noreferrer">
-            {buttonText || 'ЗАКАЗАТЬ МОНТАЖ'}
+          <a href="https://t.me/m/bP0V-5mcZjJi" target="_blank" rel="noopener noreferrer">
+            {buttonText || 'ОСТАВИТЬ ЗАЯВКУ'}
           </a>
         </Button>
       </motion.div>

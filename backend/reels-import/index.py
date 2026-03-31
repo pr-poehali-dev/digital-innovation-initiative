@@ -17,8 +17,19 @@ def get_yandex_direct_url(public_url: str) -> str:
     return data["href"]
 
 
+def download_and_upload(public_url: str, s3, aws_key_id: str) -> str:
+    """Скачивает видео с ЯД и загружает в S3, возвращает CDN URL."""
+    direct_url = get_yandex_direct_url(public_url)
+    req = urllib.request.Request(direct_url, headers={"User-Agent": "Mozilla/5.0"})
+    with urllib.request.urlopen(req, timeout=120) as resp:
+        video_data = resp.read()
+    key = f"reels/{uuid.uuid4()}.mp4"
+    s3.put_object(Bucket='files', Key=key, Body=video_data, ContentType='video/mp4')
+    return f"https://cdn.poehali.dev/projects/{aws_key_id}/bucket/{key}"
+
+
 def handler(event: dict, context) -> dict:
-    """Импортирует видео с Яндекс.Диска в S3 и сохраняет в БД."""
+    """Импортирует видео с Яндекс.Диска в S3. Поддерживает INSERT (items без id) и UPDATE (items с id)."""
     if event.get('httpMethod') == 'OPTIONS':
         return {
             'statusCode': 200,
@@ -32,39 +43,45 @@ def handler(event: dict, context) -> dict:
         }
 
     body = json.loads(event.get('body') or '{}')
-    urls = body.get('urls', [])
-    titles = body.get('titles', [])
+    items = body.get('items', [])
 
     schema = os.environ['MAIN_DB_SCHEMA']
+    aws_key_id = os.environ['AWS_ACCESS_KEY_ID']
     s3 = boto3.client(
         's3',
         endpoint_url='https://bucket.poehali.dev',
-        aws_access_key_id=os.environ['AWS_ACCESS_KEY_ID'],
+        aws_access_key_id=aws_key_id,
         aws_secret_access_key=os.environ['AWS_SECRET_ACCESS_KEY'],
     )
     conn = psycopg2.connect(os.environ['DATABASE_URL'])
     cur = conn.cursor()
 
-    imported = []
-    for i, public_url in enumerate(urls):
-        title = titles[i] if i < len(titles) else f"Reel {i+1}"
-        direct_url = get_yandex_direct_url(public_url)
+    results = []
+    for item in items:
+        public_url = item.get('url')
+        title = item.get('title', 'Reels')
+        sort_order = item.get('sort_order', 0)
+        replace_id = item.get('id')
 
-        req = urllib.request.Request(direct_url, headers={"User-Agent": "Mozilla/5.0"})
-        with urllib.request.urlopen(req, timeout=60) as resp:
-            video_data = resp.read()
+        cdn_url = download_and_upload(public_url, s3, aws_key_id)
 
-        key = f"reels/{uuid.uuid4()}.mp4"
-        s3.put_object(Bucket='files', Key=key, Body=video_data, ContentType='video/mp4')
-        cdn_url = f"https://cdn.poehali.dev/projects/{os.environ['AWS_ACCESS_KEY_ID']}/bucket/{key}"
-
-        cur.execute(f"""
-            INSERT INTO {schema}.reels (title, video_url, cover_url, sort_order)
-            VALUES ('{title}', '{cdn_url}', NULL, {i})
-            RETURNING id
-        """)
-        new_id = cur.fetchone()[0]
-        imported.append({'id': new_id, 'title': title, 'video_url': cdn_url})
+        if replace_id:
+            cur.execute(f"""
+                UPDATE {schema}.reels
+                SET video_url = '{cdn_url}', title = '{title}', cover_url = NULL
+                WHERE id = {int(replace_id)}
+                RETURNING id
+            """)
+            row = cur.fetchone()
+            results.append({'id': row[0] if row else replace_id, 'title': title, 'video_url': cdn_url, 'action': 'updated'})
+        else:
+            cur.execute(f"""
+                INSERT INTO {schema}.reels (title, video_url, cover_url, sort_order)
+                VALUES ('{title}', '{cdn_url}', NULL, {int(sort_order)})
+                RETURNING id
+            """)
+            new_id = cur.fetchone()[0]
+            results.append({'id': new_id, 'title': title, 'video_url': cdn_url, 'action': 'inserted'})
 
     conn.commit()
     cur.close()
@@ -73,5 +90,5 @@ def handler(event: dict, context) -> dict:
     return {
         'statusCode': 200,
         'headers': {'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'},
-        'body': json.dumps({'ok': True, 'imported': imported}),
+        'body': json.dumps({'ok': True, 'results': results}),
     }
