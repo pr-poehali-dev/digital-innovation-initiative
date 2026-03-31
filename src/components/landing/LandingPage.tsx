@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import { motion, useScroll, useSpring } from 'framer-motion'
 import Section from './Section'
 import Layout from './Layout'
@@ -7,39 +7,54 @@ import { sections } from './sections'
 export default function LandingPage() {
   const [activeSection, setActiveSection] = useState(0)
   const containerRef = useRef<HTMLDivElement>(null)
+  const isScrolling = useRef(false)
+  const touchStartY = useRef(0)
   const { scrollYProgress } = useScroll({ container: containerRef })
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 })
 
+  const goTo = useCallback((index: number) => {
+    const el = containerRef.current
+    if (!el || isScrolling.current) return
+    const clamped = Math.max(0, Math.min(sections.length - 1, index))
+    if (clamped === activeSection) return
+
+    isScrolling.current = true
+    setActiveSection(clamped)
+    el.scrollTo({ top: clamped * window.innerHeight, behavior: 'smooth' })
+
+    setTimeout(() => { isScrolling.current = false }, 800)
+  }, [activeSection])
+
   useEffect(() => {
-    const handleScroll = () => {
-      if (containerRef.current) {
-        const scrollPosition = containerRef.current.scrollTop
-        const windowHeight = window.innerHeight
-        const newActiveSection = Math.floor(scrollPosition / windowHeight)
-        setActiveSection(newActiveSection)
-      }
+    const el = containerRef.current
+    if (!el) return
+
+    const onWheel = (e: WheelEvent) => {
+      e.preventDefault()
+      if (isScrolling.current) return
+      goTo(activeSection + (e.deltaY > 0 ? 1 : -1))
     }
 
-    const container = containerRef.current
-    if (container) {
-      container.addEventListener('scroll', handleScroll)
+    const onTouchStart = (e: TouchEvent) => {
+      touchStartY.current = e.touches[0].clientY
     }
+
+    const onTouchEnd = (e: TouchEvent) => {
+      if (isScrolling.current) return
+      const delta = touchStartY.current - e.changedTouches[0].clientY
+      if (Math.abs(delta) > 30) goTo(activeSection + (delta > 0 ? 1 : -1))
+    }
+
+    el.addEventListener('wheel', onWheel, { passive: false })
+    el.addEventListener('touchstart', onTouchStart, { passive: true })
+    el.addEventListener('touchend', onTouchEnd, { passive: true })
 
     return () => {
-      if (container) {
-        container.removeEventListener('scroll', handleScroll)
-      }
+      el.removeEventListener('wheel', onWheel)
+      el.removeEventListener('touchstart', onTouchStart)
+      el.removeEventListener('touchend', onTouchEnd)
     }
-  }, [])
-
-  const handleNavClick = (index: number) => {
-    if (containerRef.current) {
-      containerRef.current.scrollTo({
-        top: index * window.innerHeight,
-        behavior: 'smooth'
-      })
-    }
-  }
+  }, [activeSection, goTo])
 
   return (
     <Layout>
@@ -50,7 +65,7 @@ export default function LandingPage() {
             className={`w-3 h-3 rounded-full my-2 transition-all ${
               index === activeSection ? 'bg-white scale-150' : 'bg-gray-600'
             }`}
-            onClick={() => handleNavClick(index)}
+            onClick={() => goTo(index)}
           />
         ))}
       </nav>
@@ -61,6 +76,7 @@ export default function LandingPage() {
       <div
         ref={containerRef}
         className="h-full overflow-y-auto snap-y snap-mandatory"
+        style={{ scrollSnapType: 'y mandatory' }}
       >
         {sections.map((section, index) => (
           <Section
