@@ -5,6 +5,7 @@ export type SectionVariant =
   | 'problem'
   | 'solution'
   | 'results'
+  | 'before-after'
   | 'portfolio'
   | 'testimonials'
   | 'process'

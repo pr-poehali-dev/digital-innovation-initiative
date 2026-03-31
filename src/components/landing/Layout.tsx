@@ -7,8 +7,8 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps) {
   return (
-    <div className="h-screen overflow-hidden bg-black relative">
-      <div className="absolute inset-0 z-10">
+    <div className="min-h-screen bg-black relative overflow-x-hidden">
+      <div className="fixed inset-0 z-0">
         <Squares
           direction="diagonal"
           speed={0.5}
@@ -17,7 +17,7 @@ export default function Layout({ children }: LayoutProps) {
           hoverFillColor="#222"
         />
       </div>
-      <div className="relative z-20 h-full">
+      <div className="relative z-10">
         {children}
       </div>
     </div>
