@@ -29,58 +29,38 @@ const animScale = (delay = 0) => ({
   transition: { duration: 0.4, delay },
 })
 
-const HERO_COVERS = [
-  "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/679ae59d-91fb-44e7-8f6e-66e8af8fbcbb.jpg",
-  "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/6e6e3bea-44c5-4a87-a9f5-2adb7dccf18f.jpg",
-  "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/679ae59d-91fb-44e7-8f6e-66e8af8fbcbb.jpg",
-  "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/6e6e3bea-44c5-4a87-a9f5-2adb7dccf18f.jpg",
-  "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/679ae59d-91fb-44e7-8f6e-66e8af8fbcbb.jpg",
-  "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/6e6e3bea-44c5-4a87-a9f5-2adb7dccf18f.jpg",
-]
-
 function HeroSection({ isActive }: { isActive: boolean }) {
-  const [offset, setOffset] = useState(0)
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setOffset(prev => prev - 1)
-    }, 20)
-    return () => clearInterval(interval)
-  }, [])
-
-  const cardW = 130
-  const gap = 12
-  const total = HERO_COVERS.length
-  const trackW = (cardW + gap) * total
-
-  const normalizedOffset = ((offset % trackW) + trackW) % trackW
-
   return (
     <section id="hero" className="relative h-screen w-full snap-start flex flex-col items-center justify-center overflow-hidden">
-      <div className="absolute inset-0 z-0 overflow-hidden">
-        <div
-          className="flex gap-3 absolute top-1/2 -translate-y-1/2"
-          style={{ transform: `translateX(${-normalizedOffset}px) translateY(-50%)`, width: trackW * 2 + 'px' }}
-        >
-          {[...HERO_COVERS, ...HERO_COVERS].map((src, i) => (
-            <div
-              key={i}
-              className="rounded-2xl overflow-hidden flex-shrink-0 border border-white/5"
-              style={{ width: cardW, aspectRatio: '9/16' }}
-            >
-              <img src={src} alt="" className="w-full h-full object-cover opacity-40" />
-            </div>
-          ))}
+      {/* Иконки соцсетей на фоне */}
+      <div className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none select-none">
+        <div className="flex items-center gap-16 md:gap-32 opacity-[0.06]">
+          <svg viewBox="0 0 24 24" className="w-48 h-48 md:w-72 md:h-72 fill-white" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+          </svg>
+          <svg viewBox="0 0 24 24" className="w-56 h-56 md:w-80 md:h-80 fill-white" xmlns="http://www.w3.org/2000/svg">
+            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+          </svg>
+          <svg viewBox="0 0 24 24" className="w-48 h-48 md:w-72 md:h-72 fill-white" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.27 8.27 0 0 0 4.83 1.55V6.79a4.85 4.85 0 0 1-1.06-.1z"/>
+          </svg>
         </div>
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/80" />
       </div>
 
       <div className="relative z-20 flex flex-col items-center text-center px-6">
         <motion.p
-          className="text-xs md:text-sm tracking-[0.3em] uppercase mb-4"
+          className="text-xs md:text-sm tracking-[0.3em] uppercase mb-2"
           style={{ color: ACCENT }}
           {...anim(0)}
         >
-          Монтаж для экспертов и бизнеса: быстрее, качественнее, чем у фрилансеров
+          Монтаж для экспертов и бизнеса
+        </motion.p>
+        <motion.p
+          className="text-xs md:text-sm tracking-[0.3em] uppercase mb-4"
+          style={{ color: ACCENT }}
+          {...anim(0.05)}
+        >
+          Быстрее и качественнее, чем у фрилансеров
         </motion.p>
         <motion.h1
           className="text-5xl sm:text-7xl md:text-8xl lg:text-[10rem] font-black tracking-tight leading-none text-white"
@@ -253,7 +233,7 @@ function BeforeAfterSection({ isActive }: { isActive: boolean }) {
         </motion.div>
       </div>
 
-      <motion.p className="mt-5 md:mt-8 text-neutral-500 text-xs md:text-sm max-w-sm leading-relaxed" {...anim(0.55)}>
+      <motion.p className="mt-5 md:mt-8 text-neutral-500 text-xs md:text-sm whitespace-nowrap" {...anim(0.55)}>
         Тот же контент — другой монтаж. Просмотры выросли с <span className="text-white font-semibold">5 789</span> до <span className="font-bold" style={{ color: ACCENT }}>600 000</span>
       </motion.p>
     </section>
@@ -449,7 +429,7 @@ function CTASection({ isActive, buttonText, buttonHref }: { isActive: boolean; b
           className="text-white font-bold text-sm md:text-base px-8 md:px-10 py-5 md:py-6 tracking-widest uppercase hover:opacity-90 transition-opacity"
           style={{ backgroundColor: '#0088cc', border: 'none' }}
         >
-          <a href="https://t.me/m/bP0V-5mcZjJi" target="_blank" rel="noopener noreferrer">
+          <a href="https://t.me/ViIlmort" target="_blank" rel="noopener noreferrer">
             {buttonText || 'ОСТАВИТЬ ЗАЯВКУ'}
           </a>
         </Button>
