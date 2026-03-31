@@ -625,7 +625,7 @@ function CTASection({ buttonText, buttonHref }: { buttonText?: string; buttonHre
         Напиши в Telegram — сделаем тебе бесплатный разбор и подберём монтаж
       </p>
       <a
-        href={buttonHref || "https://t.me/ViIlmort"}
+        href={buttonHref || "https://t.me/m/-GL9C5AQOWQy"}
         target="_blank"
         rel="noopener noreferrer"
         className="inline-flex items-center gap-3 text-white font-bold text-sm md:text-base px-8 md:px-10 py-4 md:py-5 tracking-widest uppercase rounded-lg transition-all hover:scale-105 active:scale-95"
