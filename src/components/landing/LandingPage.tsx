@@ -9,6 +9,7 @@ export default function LandingPage() {
   const containerRef = useRef<HTMLDivElement>(null)
   const isScrolling = useRef(false)
   const touchStartY = useRef(0)
+  const activeSectionRef = useRef(0)
   const { scrollYProgress } = useScroll({ container: containerRef })
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 })
 
@@ -16,14 +17,15 @@ export default function LandingPage() {
     const el = containerRef.current
     if (!el || isScrolling.current) return
     const clamped = Math.max(0, Math.min(sections.length - 1, index))
-    if (clamped === activeSection) return
+    if (clamped === activeSectionRef.current) return
 
     isScrolling.current = true
+    activeSectionRef.current = clamped
     setActiveSection(clamped)
     el.scrollTo({ top: clamped * window.innerHeight, behavior: 'smooth' })
 
-    setTimeout(() => { isScrolling.current = false }, 800)
-  }, [activeSection])
+    setTimeout(() => { isScrolling.current = false }, 900)
+  }, [])
 
   useEffect(() => {
     const el = containerRef.current
@@ -32,29 +34,35 @@ export default function LandingPage() {
     const onWheel = (e: WheelEvent) => {
       e.preventDefault()
       if (isScrolling.current) return
-      goTo(activeSection + (e.deltaY > 0 ? 1 : -1))
+      goTo(activeSectionRef.current + (e.deltaY > 0 ? 1 : -1))
     }
 
     const onTouchStart = (e: TouchEvent) => {
       touchStartY.current = e.touches[0].clientY
     }
 
+    const onTouchMove = (e: TouchEvent) => {
+      e.preventDefault()
+    }
+
     const onTouchEnd = (e: TouchEvent) => {
       if (isScrolling.current) return
       const delta = touchStartY.current - e.changedTouches[0].clientY
-      if (Math.abs(delta) > 30) goTo(activeSection + (delta > 0 ? 1 : -1))
+      if (Math.abs(delta) > 40) goTo(activeSectionRef.current + (delta > 0 ? 1 : -1))
     }
 
     el.addEventListener('wheel', onWheel, { passive: false })
     el.addEventListener('touchstart', onTouchStart, { passive: true })
+    el.addEventListener('touchmove', onTouchMove, { passive: false })
     el.addEventListener('touchend', onTouchEnd, { passive: true })
 
     return () => {
       el.removeEventListener('wheel', onWheel)
       el.removeEventListener('touchstart', onTouchStart)
+      el.removeEventListener('touchmove', onTouchMove)
       el.removeEventListener('touchend', onTouchEnd)
     }
-  }, [activeSection, goTo])
+  }, [goTo])
 
   return (
     <Layout>
@@ -75,8 +83,7 @@ export default function LandingPage() {
       />
       <div
         ref={containerRef}
-        className="h-full overflow-y-auto snap-y snap-mandatory"
-        style={{ scrollSnapType: 'y mandatory' }}
+        className="h-full overflow-hidden"
       >
         {sections.map((section, index) => (
           <Section
