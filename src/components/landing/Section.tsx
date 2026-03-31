@@ -35,48 +35,58 @@ const SOCIAL_ICONS = [
   <svg key="tt" viewBox="0 0 24 24" className="fill-white" xmlns="http://www.w3.org/2000/svg"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.27 8.27 0 0 0 4.83 1.55V6.79a4.85 4.85 0 0 1-1.06-.1z"/></svg>,
 ]
 
-const ICON_SIZE = 96
+const ICON_SIZE = 100
+const ROWS = 3
+
+function HeroIconRow({ offset, rowIndex }: { offset: number; rowIndex: number }) {
+  const gap = 60
+  const count = SOCIAL_ICONS.length * 4
+  const trackW = (ICON_SIZE + gap) * SOCIAL_ICONS.length
+  const dir = rowIndex % 2 === 0 ? -1 : 1
+  const norm = ((offset * dir) % trackW + trackW) % trackW
+
+  return (
+    <div className="flex items-center flex-shrink-0 overflow-hidden w-full" style={{ gap }}>
+      <div
+        className="flex items-center flex-shrink-0"
+        style={{ gap, transform: `translateX(${-norm}px)`, width: (ICON_SIZE + gap) * count }}
+      >
+        {Array.from({ length: count }).map((_, i) => (
+          <div
+            key={i}
+            className="flex-shrink-0 opacity-[0.05]"
+            style={{ width: ICON_SIZE, height: ICON_SIZE }}
+          >
+            {SOCIAL_ICONS[i % SOCIAL_ICONS.length]}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
 
 function HeroSection({ isActive }: { isActive: boolean }) {
   const [offset, setOffset] = useState(0)
   useEffect(() => {
-    const id = setInterval(() => setOffset(p => p - 0.6), 16)
+    const id = setInterval(() => setOffset(p => p + 0.5), 16)
     return () => clearInterval(id)
   }, [])
 
-  const gap = 80
-  const count = SOCIAL_ICONS.length
-  const trackW = (ICON_SIZE + gap) * count
-  const norm = ((offset % trackW) + trackW) % trackW
-
   return (
     <section id="hero" className="relative h-screen w-full snap-start flex flex-col items-center justify-center overflow-hidden">
-      {/* Прокрут иконок на фоне */}
-      <div className="absolute inset-0 z-0 overflow-hidden flex items-center pointer-events-none select-none">
-        <div
-          className="flex items-center"
-          style={{ gap, transform: `translateX(${-norm}px)`, width: trackW * 4 }}
-        >
-          {Array.from({ length: 4 }).flatMap((_, rep) =>
-            SOCIAL_ICONS.map((icon, i) => (
-              <div
-                key={`${rep}-${i}`}
-                className="flex-shrink-0 opacity-[0.05]"
-                style={{ width: ICON_SIZE, height: ICON_SIZE }}
-              >
-                {icon}
-              </div>
-            ))
-          )}
-        </div>
+      {/* Прокрут иконок — несколько рядов */}
+      <div className="absolute inset-0 z-0 flex flex-col justify-center gap-8 pointer-events-none select-none overflow-hidden">
+        {Array.from({ length: ROWS }).map((_, i) => (
+          <HeroIconRow key={i} offset={offset} rowIndex={i} />
+        ))}
       </div>
 
       <div className="relative z-20 flex flex-col items-center text-center px-6">
         <motion.div {...anim(0)} className="mb-6">
-          <p className="text-xs md:text-sm font-light tracking-[0.3em] uppercase mb-1" style={{ color: ACCENT }}>
+          <p className="text-base md:text-xl font-light tracking-[0.2em] uppercase mb-1" style={{ color: ACCENT }}>
             Монтаж для экспертов и бизнеса
           </p>
-          <p className="text-xs md:text-sm font-light tracking-[0.3em] uppercase" style={{ color: ACCENT }}>
+          <p className="text-base md:text-xl font-light tracking-[0.2em] uppercase" style={{ color: ACCENT }}>
             Быстрее и качественнее, чем у фрилансеров
           </p>
         </motion.div>
@@ -115,6 +125,7 @@ function ProblemSection({ isActive }: { isActive: boolean }) {
       </motion.p>
       <motion.h2
         className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold leading-tight max-w-3xl text-white mb-8 md:mb-12"
+        style={{ textShadow: '0 0 30px rgba(255,255,255,0.25), 0 0 60px rgba(255,255,255,0.1)' }}
         {...anim(0.1)}
       >
         Твои видео выглядят дёшево?
@@ -147,6 +158,7 @@ function SolutionSection({ isActive }: { isActive: boolean }) {
       </motion.p>
       <motion.h2
         className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold leading-tight max-w-3xl text-white mb-6 md:mb-12"
+        style={{ textShadow: '0 0 30px rgba(255,255,255,0.25), 0 0 60px rgba(255,255,255,0.1)' }}
         {...anim(0.1)}
       >
         Монтаж, который работает на тебя.
@@ -184,7 +196,7 @@ function ResultsSection({ isActive }: { isActive: boolean }) {
       <motion.p className="text-xs tracking-[0.3em] uppercase mb-4" style={{ color: ACCENT }} {...anim(0)}>
         Цифры говорят сами
       </motion.p>
-      <motion.h2 className="text-3xl sm:text-4xl md:text-6xl font-bold text-white mb-6 md:mb-10" {...anim(0.1)}>
+      <motion.h2 className="text-3xl sm:text-4xl md:text-6xl font-bold text-white mb-6 md:mb-10" style={{ textShadow: '0 0 30px rgba(255,255,255,0.25), 0 0 60px rgba(255,255,255,0.1)' }} {...anim(0.1)}>
         Наши результаты.
       </motion.h2>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 max-w-4xl mb-8 md:mb-12">
@@ -213,7 +225,7 @@ function BeforeAfterSection({ isActive }: { isActive: boolean }) {
       <motion.p className="text-xs tracking-[0.3em] uppercase mb-3" style={{ color: ACCENT }} {...anim(0)}>
         Разница очевидна
       </motion.p>
-      <motion.h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-black text-white mb-6 md:mb-10" {...anim(0.1)}>
+      <motion.h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-black text-white mb-6 md:mb-10" style={{ textShadow: '0 0 30px rgba(255,255,255,0.25), 0 0 60px rgba(255,255,255,0.1)' }} {...anim(0.1)}>
         БЫЛО — СТАЛО
       </motion.h2>
       <div className="flex flex-row gap-4 md:gap-8 items-start">
@@ -313,7 +325,7 @@ function ReelCard({ reel, index }: { reel: Reel; index: number }) {
 function PortfolioSection({ isActive }: { isActive: boolean }) {
   const [reels, setReels] = useState<Reel[]>([])
   const [loading, setLoading] = useState(true)
-  const scrollRef = useRef<HTMLDivElement>(null)
+  const [current, setCurrent] = useState(0)
 
   useEffect(() => {
     const url = (func2url as Record<string, string>)['reels-get']
@@ -324,43 +336,33 @@ function PortfolioSection({ isActive }: { isActive: boolean }) {
       .catch(() => setLoading(false))
   }, [])
 
-  const scroll = (dir: 'left' | 'right') => {
-    if (!scrollRef.current) return
-    scrollRef.current.scrollBy({ left: dir === 'right' ? 200 : -200, behavior: 'smooth' })
-  }
+  const visible = 4
+  const canPrev = current > 0
+  const canNext = reels.length > 0 && current < reels.length - visible
+
+  const prev = () => setCurrent(c => Math.max(0, c - 1))
+  const next = () => setCurrent(c => Math.min(reels.length - visible, c + 1))
 
   const empty = Array.from({ length: 4 })
-  const cardW = 'clamp(110px, 28vw, 160px)'
+  const cardW = 'clamp(110px, 20vw, 160px)'
 
   return (
-    <section id="portfolio" className="relative h-screen w-full snap-start flex flex-col justify-center px-6 md:px-16 lg:px-24 overflow-hidden">
-      <motion.p className="text-xs tracking-[0.3em] uppercase mb-3" style={{ color: ACCENT }} {...anim(0)}>
-        Портфолио
-      </motion.p>
-      <div className="flex items-center justify-between mb-6 md:mb-8">
-        <motion.h2 className="text-3xl sm:text-4xl md:text-6xl font-bold text-white" {...anim(0.1)}>
+    <section id="portfolio" className="relative h-screen w-full snap-start flex flex-col justify-center overflow-hidden">
+      <div className="px-6 md:px-16 lg:px-24">
+        <motion.p className="text-xs tracking-[0.3em] uppercase mb-3" style={{ color: ACCENT }} {...anim(0)}>
+          Портфолио
+        </motion.p>
+        <motion.h2
+          className="text-3xl sm:text-4xl md:text-6xl font-bold text-white mb-6 md:mb-8"
+          style={{ textShadow: '0 0 30px rgba(255,255,255,0.25), 0 0 60px rgba(255,255,255,0.1)' }}
+          {...anim(0.1)}
+        >
           Уровень нашего монтажа.
         </motion.h2>
-        {!loading && reels.length > 0 && (
-          <div className="flex gap-2 flex-shrink-0 ml-4">
-            <button
-              onClick={() => scroll('left')}
-              className="w-9 h-9 rounded-full border border-neutral-700 flex items-center justify-center text-neutral-400 hover:border-white hover:text-white transition-colors"
-            >
-              <Icon name="ChevronLeft" size={18} />
-            </button>
-            <button
-              onClick={() => scroll('right')}
-              className="w-9 h-9 rounded-full border border-neutral-700 flex items-center justify-center text-neutral-400 hover:border-white hover:text-white transition-colors"
-            >
-              <Icon name="ChevronRight" size={18} />
-            </button>
-          </div>
-        )}
       </div>
 
       {loading && (
-        <div className="flex gap-3">
+        <div className="flex gap-3 px-6 md:px-16 lg:px-24">
           {empty.map((_, i) => (
             <div key={i} className="rounded-2xl bg-neutral-900 animate-pulse flex-shrink-0" style={{ aspectRatio: '9/16', width: cardW }} />
           ))}
@@ -368,7 +370,7 @@ function PortfolioSection({ isActive }: { isActive: boolean }) {
       )}
 
       {!loading && reels.length === 0 && (
-        <motion.div className="flex gap-3" {...anim(0.2)}>
+        <motion.div className="flex gap-3 px-6 md:px-16 lg:px-24" {...anim(0.2)}>
           {empty.map((_, i) => (
             <div key={i} className="rounded-2xl border border-neutral-800 border-dashed flex-shrink-0 flex flex-col items-center justify-center text-neutral-600" style={{ aspectRatio: '9/16', width: cardW }}>
               <Icon name="Video" size={20} />
@@ -379,12 +381,33 @@ function PortfolioSection({ isActive }: { isActive: boolean }) {
       )}
 
       {!loading && reels.length > 0 && (
-        <div ref={scrollRef} className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide" style={{ maxWidth: '100%' }}>
-          {reels.map((r, i) => (
-            <div key={r.id} className="flex-shrink-0" style={{ width: cardW }}>
-              <ReelCard reel={r} index={i} />
-            </div>
-          ))}
+        <div className="relative flex items-center">
+          {/* Стрелка влево */}
+          <button
+            onClick={prev}
+            disabled={!canPrev}
+            className="absolute left-1 md:left-4 z-10 w-10 h-10 rounded-full border border-neutral-700 flex items-center justify-center text-neutral-400 hover:border-white hover:text-white transition-all disabled:opacity-20 disabled:cursor-not-allowed bg-black/50 backdrop-blur-sm flex-shrink-0"
+          >
+            <Icon name="ChevronLeft" size={20} />
+          </button>
+
+          {/* Карточки */}
+          <div className="flex gap-3 overflow-hidden px-14 md:px-20" style={{ width: '100%' }}>
+            {reels.slice(current, current + visible + 1).map((r, i) => (
+              <div key={r.id} className="flex-shrink-0" style={{ width: cardW }}>
+                <ReelCard reel={r} index={i} />
+              </div>
+            ))}
+          </div>
+
+          {/* Стрелка вправо */}
+          <button
+            onClick={next}
+            disabled={!canNext}
+            className="absolute right-1 md:right-4 z-10 w-10 h-10 rounded-full border border-neutral-700 flex items-center justify-center text-neutral-400 hover:border-white hover:text-white transition-all disabled:opacity-20 disabled:cursor-not-allowed bg-black/50 backdrop-blur-sm flex-shrink-0"
+          >
+            <Icon name="ChevronRight" size={20} />
+          </button>
         </div>
       )}
     </section>
@@ -403,7 +426,7 @@ function TestimonialsSection({ isActive }: { isActive: boolean }) {
       <motion.p className="text-xs tracking-[0.3em] uppercase mb-4" style={{ color: ACCENT }} {...anim(0)}>
         Отзывы
       </motion.p>
-      <motion.h2 className="text-3xl sm:text-4xl md:text-6xl font-bold text-white mb-6 md:mb-10" {...anim(0.1)}>
+      <motion.h2 className="text-3xl sm:text-4xl md:text-6xl font-bold text-white mb-6 md:mb-10" style={{ textShadow: '0 0 30px rgba(255,255,255,0.25), 0 0 60px rgba(255,255,255,0.1)' }} {...anim(0.1)}>
         Что говорят клиенты.
       </motion.h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-5 max-w-5xl">
@@ -437,7 +460,7 @@ function ProcessSection({ isActive }: { isActive: boolean }) {
       <motion.p className="text-xs tracking-[0.3em] uppercase mb-4" style={{ color: ACCENT }} {...anim(0)}>
         Процесс
       </motion.p>
-      <motion.h2 className="text-3xl sm:text-4xl md:text-6xl font-bold text-white mb-6 md:mb-10" {...anim(0.1)}>
+      <motion.h2 className="text-3xl sm:text-4xl md:text-6xl font-bold text-white mb-6 md:mb-10" style={{ textShadow: '0 0 30px rgba(255,255,255,0.25), 0 0 60px rgba(255,255,255,0.1)' }} {...anim(0.1)}>
         Как мы работаем.
       </motion.h2>
       <div className="grid grid-cols-2 md:flex md:flex-row gap-4 md:gap-6 max-w-4xl">
@@ -461,6 +484,7 @@ function CTASection({ isActive, buttonText, buttonHref }: { isActive: boolean; b
       </motion.p>
       <motion.h2
         className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black text-white leading-tight max-w-3xl mb-4 md:mb-6"
+        style={{ textShadow: '0 0 40px rgba(255,255,255,0.35), 0 0 80px rgba(255,255,255,0.15)' }}
         {...anim(0.1)}
       >
         Готов к контенту?
