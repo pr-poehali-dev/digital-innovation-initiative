@@ -68,11 +68,27 @@ function HeroSection() {
         >
           VILMORT
         </h1>
-        <div className="mt-8">
-          <div className="flex items-center gap-2 text-neutral-400 text-sm animate-bounce">
-            <span>Листай вниз</span>
-            <Icon name="ChevronDown" size={16} />
+        <p className="mt-8 text-neutral-300 text-sm md:text-base font-light tracking-wide">
+          Хочешь пробный монтаж?
+        </p>
+        <div className="mt-6 flex flex-col items-center gap-4">
+          <div className="flex flex-col items-center gap-1 text-neutral-400 text-xs animate-bounce">
+            <Icon name="ChevronDown" size={20} />
+            <span className="tracking-widest uppercase text-[10px]">Пиши нам</span>
           </div>
+          <a
+            href="https://t.me/m/-GL9C5AQOWQy"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-3 text-white font-bold text-sm md:text-base px-8 py-4 tracking-widest uppercase rounded-lg transition-all hover:scale-105 active:scale-95"
+            style={{
+              background: `linear-gradient(135deg, ${ACCENT}, ${ACCENT}cc)`,
+              boxShadow: `0 0 30px ${ACCENT}60, 0 0 60px ${ACCENT}30`,
+            }}
+          >
+            <Icon name="Send" size={18} />
+            Написать в телеграм
+          </a>
         </div>
       </div>
     </section>
