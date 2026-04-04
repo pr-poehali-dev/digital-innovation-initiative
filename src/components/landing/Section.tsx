@@ -83,7 +83,7 @@ function HeroSection() {
             className="inline-flex items-center gap-3 text-white font-bold text-sm md:text-base px-8 py-4 tracking-widest uppercase rounded-lg transition-all hover:scale-105 active:scale-95"
             style={{
               background: `linear-gradient(135deg, ${ACCENT}, ${ACCENT}cc)`,
-              boxShadow: `0 0 30px ${ACCENT}60, 0 0 60px ${ACCENT}30`,
+              boxShadow: `0 0 20px ${ACCENT}, 0 0 60px ${ACCENT}cc, 0 0 120px ${ACCENT}80`,
             }}
           >
             <Icon name="Send" size={18} />
