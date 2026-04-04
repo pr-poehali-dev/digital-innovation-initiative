@@ -55,7 +55,7 @@ function HeroSection() {
       </div>
       <div className="relative z-20 flex flex-col items-center text-center px-6 w-full">
         <div className="mb-10 md:mb-20">
-          <p className="text-[9px] md:text-sm font-light tracking-[0.2em] md:tracking-[0.3em] uppercase leading-relaxed" style={{ color: ACCENT }}>
+          <p className="text-[11px] md:text-base font-light tracking-[0.2em] md:tracking-[0.3em] uppercase leading-relaxed" style={{ color: ACCENT }}>
             Видео, которые удерживают внимание<br />и приводят клиентов
           </p>
         </div>
@@ -80,7 +80,7 @@ function HeroSection() {
             className="inline-flex items-center gap-3 text-white font-bold text-sm md:text-base px-8 py-4 tracking-widest uppercase rounded-lg transition-all hover:scale-105 active:scale-95"
             style={{
               background: `linear-gradient(135deg, ${ACCENT}, ${ACCENT}cc)`,
-              boxShadow: `0 0 20px ${ACCENT}, 0 0 60px ${ACCENT}cc, 0 0 120px ${ACCENT}80`,
+              boxShadow: `0 0 10px ${ACCENT}99, 0 0 30px ${ACCENT}66, 0 0 60px ${ACCENT}40`,
             }}
           >
             <Icon name="Send" size={18} />
@@ -632,10 +632,10 @@ function CTASection({ buttonText, buttonHref }: { buttonText?: string; buttonHre
         className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-black text-white leading-tight mb-4 md:mb-6"
         style={{ textShadow: '0 0 40px rgba(255,255,255,0.35), 0 0 80px rgba(255,255,255,0.15)' }}
       >
-        Готов к контенту?
+        Хочешь сотрудничать<br />с нами?
       </h2>
       <p className="text-sm md:text-lg text-neutral-400 max-w-xs md:max-w-xl mb-10">
-        Напиши в Telegram — сделаем тебе бесплатный разбор и подберём монтаж
+        Напиши нам в Telegram — разберем твой продукт и сделаем монтаж
       </p>
       <a
         href={buttonHref || "https://t.me/m/-GL9C5AQOWQy"}
