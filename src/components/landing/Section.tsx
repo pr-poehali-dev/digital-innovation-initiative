@@ -88,6 +88,10 @@ function HeroSection() {
           </a>
         </div>
       </div>
+      <div className="absolute bottom-8 right-8 z-20 flex flex-col items-center gap-1 opacity-30 animate-bounce pointer-events-none">
+        <Icon name="ChevronDown" size={28} className="text-white" />
+        <Icon name="ChevronDown" size={20} className="text-white opacity-60" />
+      </div>
     </section>
   )
 }
