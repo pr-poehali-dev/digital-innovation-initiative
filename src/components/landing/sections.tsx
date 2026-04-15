@@ -56,6 +56,6 @@ export const sections: Section[] = [
     content: 'Оставь заявку — расскажем о задачах, подберём формат и стартуем в течение 2 дней.',
     showButton: true,
     buttonText: 'ЗАКАЗАТЬ МОНТАЖ',
-    buttonHref: 'https://t.me/m/-GL9C5AQOWQy',
+    buttonHref: 'https://t.me/ViIlmort',
   },
 ]

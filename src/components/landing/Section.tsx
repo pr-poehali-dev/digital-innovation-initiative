@@ -40,7 +40,7 @@ function HeroSection() {
 
       {/* TG button bottom-left */}
       <a
-        href="https://t.me/m/-GL9C5AQOWQy"
+        href="https://t.me/ViIlmort"
         target="_blank"
         rel="noopener noreferrer"
         className="absolute bottom-8 left-8 z-20 w-12 h-12 rounded-full flex items-center justify-center transition-all hover:scale-110 active:scale-95"
@@ -327,7 +327,7 @@ function CTASection() {
         ))}
       </div>
       <a
-        href="https://t.me/m/-GL9C5AQOWQy"
+        href="https://t.me/ViIlmort"
         target="_blank"
         rel="noopener noreferrer"
         className="inline-flex items-center gap-3 text-white font-bold text-sm md:text-base px-8 md:px-10 py-4 md:py-5 tracking-widest uppercase rounded-lg transition-all hover:scale-105 active:scale-95"
