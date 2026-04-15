@@ -18,7 +18,7 @@ function HeroSection() {
       {/* BG image — black & white */}
       <div className="absolute inset-0 z-0">
         <img
-          src="https://disk.yandex.ru/i/bv7aNtKnFPSlow"
+          src="https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/d46a4a41-9bd9-4861-b8f2-0f557aab094b.jpg"
           alt=""
           className="w-full h-full object-cover"
           style={{ filter: 'grayscale(100%) brightness(0.35)' }}
@@ -170,7 +170,9 @@ function SolutionSection() {
 // ── RESULTS ───────────────────────────────────────────────────────────────────
 
 const CLIENT_LOGOS: string[] = [
-  "https://disk.yandex.ru/i/jTcQ69pe73cPYw",
+  "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/bf75aa40-b95b-4ff3-9fdb-80cfdbef27e8.jpg",
+  "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/5c6bb1d3-386c-4aca-8e8e-435d04a6c963.jpg",
+  "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/fe00283c-0ab3-4851-8b5e-b53aa04a36e0.jpg",
 ]
 
 function ResultsSection() {
@@ -212,7 +214,12 @@ function ResultsSection() {
 // ── BEFORE / AFTER ────────────────────────────────────────────────────────────
 
 const RESULT_IMAGES: string[] = [
-  "https://disk.yandex.ru/i/BLi-zbVp0q1rKA",
+  "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/7fea44d3-4d41-4212-8102-187eeb5f5a6a.jpg",
+  "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/633ddefd-bfac-411a-ac9c-f5839106736b.jpg",
+  "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/fcb5273e-2c9d-4ec0-a057-a414609858ca.jpg",
+  "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/f682677e-c17c-4005-b199-86f6648197b6.jpg",
+  "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/8ade047e-1be3-4ae2-b2b2-b71b5e2036c6.jpg",
+  "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/c7e3f787-794a-4f2d-9ffc-067c81d6f4c2.jpg",
 ]
 
 function BeforeAfterSection() {
@@ -249,7 +256,13 @@ function BeforeAfterSection() {
 // ── TESTIMONIALS ──────────────────────────────────────────────────────────────
 
 const REVIEW_IMAGES: string[] = [
-  "https://disk.yandex.ru/i/TIH5rq26d-Frmg",
+  "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/eba0f5c8-1929-46a8-baf4-57d5f240626c.jpg",
+  "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/4d51e2d8-e3c1-4e62-becb-6d000d200947.jpg",
+  "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/0cbdb9df-18d9-4a85-b549-baa624ef2342.jpg",
+  "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/d9248ddc-f300-4f7d-bfc0-284fbc48e538.jpg",
+  "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/415330f9-e1b1-4580-a8f6-5c48c7000c1a.jpg",
+  "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/fa83473f-12bc-45fc-98ba-44eb8e5b1fae.jpg",
+  "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/d8db0f19-c26b-42fd-b5d7-0a2a8bb65d89.jpg",
 ]
 
 function TestimonialsSection() {
@@ -259,32 +272,29 @@ function TestimonialsSection() {
       <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold text-white mb-10 md:mb-14">
         Что говорят клиенты.
       </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 md:gap-10">
+      <div className="columns-1 sm:columns-2 md:columns-3 gap-8 md:gap-10 space-y-10">
         {REVIEW_IMAGES.map((src, i) => (
           <div
             key={i}
-            className="relative bg-white rounded-sm shadow-2xl"
+            className="relative bg-white rounded-sm shadow-2xl break-inside-avoid mb-10 inline-block w-full"
             style={{
-              transform: `rotate(${(i % 3 - 1) * 1.5}deg)`,
+              transform: `rotate(${[-1.5, 1, -0.8, 1.5, -1, 0.7, -1.2][i % 7]}deg)`,
               transformOrigin: 'top center',
-              filter: 'grayscale(20%)',
             }}
           >
             {/* Скрепка */}
-            <div
-              className="absolute -top-5 left-1/2 -translate-x-1/2 w-5 h-10 rounded-full border-2 border-neutral-400 z-10"
-              style={{
-                borderRadius: '10px',
-                background: 'transparent',
-                borderColor: '#aaa',
-              }}
-            />
-            {/* Дыра от скрепки */}
-            <div className="flex justify-center pt-6 pb-1">
-              <div className="w-2 h-2 rounded-full bg-neutral-300" />
+            <div className="flex justify-center pt-2">
+              <div
+                className="w-4 h-8 border-[3px] rounded-full -mt-4"
+                style={{ borderColor: '#999', background: 'transparent' }}
+              />
             </div>
-            <div className="p-3 pb-4">
-              <img src={src} alt={`отзыв ${i + 1}`} className="w-full rounded-sm object-cover" />
+            {/* Дыра */}
+            <div className="flex justify-center mt-1 mb-1">
+              <div className="w-1.5 h-1.5 rounded-full bg-neutral-300" />
+            </div>
+            <div className="px-3 pb-4">
+              <img src={src} alt={`отзыв ${i + 1}`} className="w-full object-cover" />
             </div>
           </div>
         ))}
