@@ -21,7 +21,7 @@ function HeroSection() {
           src="https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/d46a4a41-9bd9-4861-b8f2-0f557aab094b.jpg"
           alt=""
           className="w-full h-full object-cover"
-          style={{ filter: 'grayscale(100%) brightness(0.35)' }}
+          style={{ filter: 'brightness(0.45) contrast(1.15)' }}
         />
         <div className="absolute inset-0 bg-black/40" />
       </div>
@@ -201,7 +201,7 @@ function ResultsSection() {
         <div className="flex flex-wrap items-center gap-4">
           {CLIENT_LOGOS.map((src, i) => (
             <div key={i} className="w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden border-2 border-neutral-600 flex-shrink-0 bg-neutral-800">
-              <img src={src} alt="клиент" className="w-full h-full object-cover" style={{ filter: 'grayscale(100%)' }} />
+              <img src={src} alt="клиент" className="w-full h-full object-cover" style={{ filter: 'brightness(1.1) contrast(1.1)' }} />
             </div>
           ))}
           <span className="text-neutral-400 text-sm font-medium">и др.</span>
@@ -213,13 +213,22 @@ function ResultsSection() {
 
 // ── BEFORE / AFTER ────────────────────────────────────────────────────────────
 
-const RESULT_IMAGES: string[] = [
-  "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/7fea44d3-4d41-4212-8102-187eeb5f5a6a.jpg",
-  "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/633ddefd-bfac-411a-ac9c-f5839106736b.jpg",
-  "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/fcb5273e-2c9d-4ec0-a057-a414609858ca.jpg",
-  "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/f682677e-c17c-4005-b199-86f6648197b6.jpg",
-  "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/8ade047e-1be3-4ae2-b2b2-b71b5e2036c6.jpg",
-  "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/c7e3f787-794a-4f2d-9ffc-067c81d6f4c2.jpg",
+const RESULT_ITEMS: { src: string; caption?: string }[] = [
+  {
+    src: "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/9c71a621-cb4d-4c6f-a1bc-93dd7b79b647.jpg",
+    caption: "Первый же ролик который мы сделали клиенту",
+  },
+  {
+    src: "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/814e008c-bbb4-4e63-a55a-f1f905e6166c.jpg",
+    caption: "6 видео нашему клиенту после выкладки",
+  },
+  { src: "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/54b759e8-a41e-42ad-bf8e-36d274639ab6.jpg" },
+  { src: "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/7a9921cd-b3fe-40a9-b501-46702a6050bd.jpg" },
+  { src: "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/4e2b6e05-e4bd-4452-907a-9a4a1cdce535.jpg" },
+  { src: "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/31fd1c1a-8f15-4760-bab5-b564dbbe625d.jpg" },
+  { src: "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/3650a5c5-2d0f-4d7d-a0bc-85f851f82a4a.jpg" },
+  { src: "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/4cffe854-18e5-4500-9e33-abbd6a1cd776.jpg" },
+  { src: "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/61fae3fc-fc91-4e7c-bf50-36f89d481083.jpg" },
 ]
 
 function BeforeAfterSection() {
@@ -230,22 +239,34 @@ function BeforeAfterSection() {
         РЕЗУЛЬТАТЫ НАШИХ КЛИЕНТОВ
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
-        {RESULT_IMAGES.map((src, i) => (
+        {RESULT_ITEMS.map(({ src, caption }, i) => (
           <div
             key={i}
-            className="rounded-2xl overflow-hidden bg-neutral-900"
+            className="group relative rounded-2xl overflow-hidden bg-neutral-950"
             style={{
-              border: `2px solid ${ACCENT}80`,
-              boxShadow: `0 0 20px ${ACCENT}30, inset 0 0 20px rgba(0,0,0,0.5)`,
-              padding: '6px',
+              padding: '3px',
+              background: `linear-gradient(135deg, ${ACCENT}, #ff8c00 50%, ${ACCENT}88)`,
+              boxShadow: `0 0 24px ${ACCENT}55, 0 4px 32px rgba(0,0,0,0.6)`,
             }}
           >
-            <img
-              src={src}
-              alt={`результат ${i + 1}`}
-              className="w-full rounded-xl object-cover"
-              style={{ filter: 'grayscale(100%)' }}
-            />
+            <div className="rounded-[14px] overflow-hidden relative">
+              <img
+                src={src}
+                alt={`результат ${i + 1}`}
+                className="w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                style={{ filter: 'brightness(1.1) contrast(1.1)' }}
+              />
+              {caption && (
+                <div
+                  className="absolute bottom-0 left-0 right-0 px-4 py-3 text-sm font-semibold text-white leading-snug"
+                  style={{
+                    background: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%)',
+                  }}
+                >
+                  {caption}
+                </div>
+              )}
+            </div>
           </div>
         ))}
       </div>
@@ -263,6 +284,7 @@ const REVIEW_IMAGES: string[] = [
   "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/415330f9-e1b1-4580-a8f6-5c48c7000c1a.jpg",
   "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/fa83473f-12bc-45fc-98ba-44eb8e5b1fae.jpg",
   "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/d8db0f19-c26b-42fd-b5d7-0a2a8bb65d89.jpg",
+  "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/f3392c3a-db13-4676-8288-0a72aad26be5.jpg",
 ]
 
 function TestimonialsSection() {
@@ -294,7 +316,7 @@ function TestimonialsSection() {
               <div className="w-1.5 h-1.5 rounded-full bg-neutral-300" />
             </div>
             <div className="px-3 pb-4">
-              <img src={src} alt={`отзыв ${i + 1}`} className="w-full object-cover" />
+              <img src={src} alt={`отзыв ${i + 1}`} className="w-full object-cover" style={{ filter: 'brightness(1.1) contrast(1.1)' }} />
             </div>
           </div>
         ))}
