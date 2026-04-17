@@ -21,7 +21,7 @@ function HeroSection() {
           src="https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/d46a4a41-9bd9-4861-b8f2-0f557aab094b.jpg"
           alt=""
           className="w-full h-full object-cover"
-          style={{ filter: 'brightness(0.45) contrast(1.15)' }}
+          style={{ filter: 'grayscale(100%) brightness(0.35)' }}
         />
         <div className="absolute inset-0 bg-black/40" />
       </div>
@@ -106,7 +106,7 @@ function ReelCard({ reel }: { reel: Reel }) {
         loop
         playsInline
         preload="metadata"
-        style={{ filter: 'grayscale(100%)' }}
+        style={{ filter: 'brightness(1.05) contrast(1.05)' }}
       />
       <div className={`absolute inset-0 bg-black/40 flex items-center justify-center transition-opacity ${playing ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'}`}>
         <div className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center">
@@ -177,9 +177,9 @@ const CLIENT_LOGOS: string[] = [
 
 function ResultsSection() {
   const stats = [
-    { value: "500+", label: "Проектов сдано" },
+    { value: "500+", label: "Ед. контента сдано" },
     { value: "×100", label: "Рост просмотров" },
-    { value: "40+", label: "Постоянных клиентов" },
+    { value: "20+", label: "Постоянных клиентов" },
     { value: "1–2 дня", label: "Срок сдачи" },
   ]
   return (
@@ -236,37 +236,31 @@ function BeforeAfterSection() {
     <section className="relative w-full py-20 md:py-28 px-6 md:px-16 lg:px-24 overflow-hidden">
       <p className="text-xs tracking-[0.3em] uppercase mb-3" style={{ color: ACCENT }}>Разница очевидна</p>
       <h2 className="text-2xl sm:text-3xl md:text-5xl font-black text-white mb-8 md:mb-12">
-        РЕЗУЛЬТАТЫ НАШИХ КЛИЕНТОВ
+        НЕКОТОРЫЕ РЕЗУЛЬТАТЫ КЛИЕНТОВ
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
         {RESULT_ITEMS.map(({ src, caption }, i) => (
-          <div
-            key={i}
-            className="group relative rounded-2xl overflow-hidden bg-neutral-950"
-            style={{
-              padding: '3px',
-              background: `linear-gradient(135deg, ${ACCENT}, #ff8c00 50%, ${ACCENT}88)`,
-              boxShadow: `0 0 24px ${ACCENT}55, 0 4px 32px rgba(0,0,0,0.6)`,
-            }}
-          >
-            <div className="rounded-[14px] overflow-hidden relative">
-              <img
-                src={src}
-                alt={`результат ${i + 1}`}
-                className="w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                style={{ filter: 'brightness(1.1) contrast(1.1)' }}
-              />
-              {caption && (
-                <div
-                  className="absolute bottom-0 left-0 right-0 px-4 py-3 text-sm font-semibold text-white leading-snug"
-                  style={{
-                    background: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%)',
-                  }}
-                >
-                  {caption}
-                </div>
-              )}
+          <div key={i} className="flex flex-col gap-0">
+            <div
+              className="group rounded-2xl overflow-hidden bg-neutral-950"
+              style={{
+                padding: '3px',
+                background: `linear-gradient(135deg, ${ACCENT}, #ff8c00 50%, ${ACCENT}88)`,
+                boxShadow: `0 0 24px ${ACCENT}55, 0 4px 32px rgba(0,0,0,0.6)`,
+              }}
+            >
+              <div className="rounded-[14px] overflow-hidden">
+                <img
+                  src={src}
+                  alt={`результат ${i + 1}`}
+                  className="w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  style={{ filter: 'brightness(1.1) contrast(1.1)' }}
+                />
+              </div>
             </div>
+            {caption && (
+              <p className="text-neutral-400 text-xs mt-2 px-1 leading-snug">{caption}</p>
+            )}
           </div>
         ))}
       </div>
@@ -325,15 +319,59 @@ function TestimonialsSection() {
   )
 }
 
+// ── BENEFITS ──────────────────────────────────────────────────────────────────
+
+function BenefitsSection() {
+  const items = [
+    { icon: "Zap", title: "Быстрое выполнение", desc: "Сдаём в течение 1–2 рабочих дней" },
+    { icon: "BadgeCheck", title: "Гарантия качества", desc: "Не берём деньги за работу, которой не гордимся" },
+    { icon: "CreditCard", title: "Оплата после сдачи", desc: "Платите только когда довольны результатом" },
+    { icon: "RefreshCw", title: "Правки бесплатно", desc: "Вносим корректировки без доплаты" },
+    { icon: "Handshake", title: "Надёжное сотрудничество", desc: "Долгосрочные отношения и приоритет постоянным клиентам" },
+  ]
+  return (
+    <section className="relative w-full py-20 md:py-28 px-6 md:px-16 lg:px-24">
+      <p className="text-xs tracking-[0.3em] uppercase mb-3" style={{ color: ACCENT }}>Наши условия</p>
+      <h2 className="text-2xl sm:text-3xl md:text-5xl font-black text-white mb-10 md:mb-14">
+        ЧТО ВЫ ПОЛУЧАЕТЕ?
+      </h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 md:gap-6">
+        {items.map(({ icon, title, desc }, i) => (
+          <div
+            key={i}
+            className="relative rounded-2xl p-5 md:p-7 bg-neutral-950 flex flex-col gap-4 transition-all hover:-translate-y-1"
+            style={{
+              border: `1.5px solid ${ACCENT}55`,
+              boxShadow: `0 0 18px ${ACCENT}18`,
+            }}
+          >
+            <div
+              className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+              style={{ background: `${ACCENT}20`, border: `1px solid ${ACCENT}55` }}
+            >
+              <Icon name={icon} size={18} style={{ color: ACCENT }} />
+            </div>
+            <div>
+              <p className="text-white font-bold text-base md:text-lg mb-1">{title}</p>
+              <p className="text-neutral-400 text-sm leading-relaxed">{desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  )
+}
+
 // ── CTA ───────────────────────────────────────────────────────────────────────
 
 function CTASection() {
   const services = [
-    "Монтаж",
-    "Сценарии",
+    "Монтаж видео",
+    "Генерация видео",
+    "Сценарий к видео",
     "Дизайн каруселей",
-    "Разбор вашего аккаунта",
-    "Подбор контента под вашу нишу",
+    "Разбор вашего продукта",
+    "Анализ и подбор контента",
   ]
   return (
     <section className="relative w-full py-24 md:py-32 flex flex-col items-center justify-center text-center px-6">
@@ -341,10 +379,10 @@ function CTASection() {
       <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-black text-white leading-tight mb-8">
         НАШИ УСЛУГИ
       </h2>
-      <div className="flex flex-col items-center gap-2 mb-10">
+      <div className="inline-flex flex-col items-start gap-3 mb-10">
         {services.map((s, i) => (
-          <p key={i} className="text-neutral-300 text-base md:text-xl font-light tracking-wide">
-            · {s}
+          <p key={i} className="text-neutral-300 text-base md:text-xl font-light tracking-wide flex items-center gap-2">
+            <span style={{ color: ACCENT }}>·</span> {s}
           </p>
         ))}
       </div>
@@ -375,6 +413,7 @@ export default function Section({ id, variant, buttonText, buttonHref }: Section
   if (variant === 'before-after') return <BeforeAfterSection />
   if (variant === 'portfolio') return null
   if (variant === 'testimonials') return <TestimonialsSection />
+  if (variant === 'benefits') return <BenefitsSection />
   if (variant === 'process') return null
   if (variant === 'cta') return <CTASection />
   return (

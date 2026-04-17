@@ -44,6 +44,12 @@ export const sections: Section[] = [
     content: '',
   },
   {
+    id: 'benefits',
+    variant: 'benefits',
+    title: 'Что вы получаете?',
+    content: '',
+  },
+  {
     id: 'process',
     variant: 'process',
     title: 'Как мы работаем.',
