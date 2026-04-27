@@ -18,7 +18,7 @@ function HeroSection() {
       {/* BG image — black & white */}
       <div className="absolute inset-0 z-0">
         <img
-          src="https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/d46a4a41-9bd9-4861-b8f2-0f557aab094b.jpg"
+          src="https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/cdc54a7f-006c-4fc5-9bc9-5557069cf334.jpg"
           alt=""
           className="w-full h-full object-cover"
           style={{ filter: 'grayscale(100%) brightness(0.35)' }}
@@ -84,7 +84,12 @@ function ProblemSection() {
 
 interface Reel { id: number; title: string; video_url: string; cover_url: string | null }
 
-function ReelCard({ reel }: { reel: Reel }) {
+const AI_REEL = {
+  video_url: "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/f0a9993e-c78e-4b3a-99dc-5190d47fa24b.mp4",
+  caption: "Пример ИИ-ролика для клиента",
+}
+
+function ReelCard({ reel, accent = ACCENT }: { reel: Reel; accent?: string }) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const [playing, setPlaying] = useState(false)
   const toggle = () => {
@@ -94,25 +99,75 @@ function ReelCard({ reel }: { reel: Reel }) {
   }
   return (
     <div
-      className="group relative rounded-2xl overflow-hidden border border-neutral-800 bg-neutral-900 cursor-pointer hover:border-[#FF4D00] transition-all"
-      style={{ aspectRatio: '9/16' }}
+      className="group relative rounded-2xl overflow-hidden cursor-pointer transition-all"
+      style={{
+        aspectRatio: '9/16',
+        padding: '2.5px',
+        background: `linear-gradient(135deg, ${accent}, ${accent}88)`,
+        boxShadow: `0 0 16px ${accent}55`,
+      }}
       onClick={toggle}
     >
-      <video
-        ref={videoRef}
-        src={reel.video_url}
-        poster={reel.cover_url || undefined}
-        className="absolute inset-0 w-full h-full object-cover"
-        loop
-        playsInline
-        preload="metadata"
-        style={{ filter: 'brightness(1.05) contrast(1.05)' }}
-      />
-      <div className={`absolute inset-0 bg-black/40 flex items-center justify-center transition-opacity ${playing ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'}`}>
-        <div className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center">
-          <Icon name={playing ? "Pause" : "Play"} size={16} className="text-white" />
+      <div className="relative w-full h-full rounded-[14px] overflow-hidden bg-neutral-900">
+        <video
+          ref={videoRef}
+          src={reel.video_url}
+          poster={reel.cover_url || undefined}
+          className="absolute inset-0 w-full h-full object-cover"
+          loop
+          playsInline
+          preload="auto"
+          style={{ filter: 'brightness(1.05) contrast(1.05)' }}
+        />
+        <div className={`absolute inset-0 bg-black/30 flex items-center justify-center transition-opacity ${playing ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'}`}>
+          <div className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center">
+            <Icon name={playing ? "Pause" : "Play"} size={16} className="text-white" />
+          </div>
         </div>
       </div>
+    </div>
+  )
+}
+
+function AiReelCard() {
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const [playing, setPlaying] = useState(false)
+  const toggle = () => {
+    const v = videoRef.current
+    if (!v) return
+    if (playing) { v.pause(); setPlaying(false) } else { v.play(); setPlaying(true) }
+  }
+  const YELLOW = "#FFD600"
+  return (
+    <div className="flex flex-col gap-2">
+      <div
+        className="group relative rounded-2xl overflow-hidden cursor-pointer transition-all"
+        style={{
+          aspectRatio: '9/16',
+          padding: '2.5px',
+          background: `linear-gradient(135deg, ${YELLOW}, ${YELLOW}88)`,
+          boxShadow: `0 0 20px ${YELLOW}66`,
+        }}
+        onClick={toggle}
+      >
+        <div className="relative w-full h-full rounded-[14px] overflow-hidden bg-neutral-900">
+          <video
+            ref={videoRef}
+            src={AI_REEL.video_url}
+            className="absolute inset-0 w-full h-full object-cover"
+            loop
+            playsInline
+            preload="auto"
+            style={{ filter: 'brightness(1.05) contrast(1.05)' }}
+          />
+          <div className={`absolute inset-0 bg-black/30 flex items-center justify-center transition-opacity ${playing ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'}`}>
+            <div className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center">
+              <Icon name={playing ? "Pause" : "Play"} size={16} className="text-white" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <p className="text-neutral-400 text-xs px-1 leading-snug">{AI_REEL.caption}</p>
     </div>
   )
 }
@@ -161,6 +216,7 @@ function SolutionSection() {
           {reels.map((r) => (
             <ReelCard key={r.id} reel={r} />
           ))}
+          <AiReelCard />
         </div>
       )}
     </section>
@@ -279,6 +335,7 @@ const REVIEW_IMAGES: string[] = [
   "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/fa83473f-12bc-45fc-98ba-44eb8e5b1fae.jpg",
   "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/d8db0f19-c26b-42fd-b5d7-0a2a8bb65d89.jpg",
   "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/f3392c3a-db13-4676-8288-0a72aad26be5.jpg",
+  "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/cf9715f9-35e4-4d52-9714-5f6b50f1a4e2.jpg",
 ]
 
 function TestimonialsSection() {
@@ -366,12 +423,13 @@ function BenefitsSection() {
 
 function CTASection() {
   const services = [
+    "Контент-план",
+    "Разбор вашего продукта",
+    "Анализ и подбор контента",
     "Монтаж видео",
     "Генерация видео",
     "Сценарий к видео",
     "Дизайн каруселей",
-    "Разбор вашего продукта",
-    "Анализ и подбор контента",
   ]
   return (
     <section className="relative w-full py-24 md:py-32 flex flex-col items-center justify-center text-center px-6">
