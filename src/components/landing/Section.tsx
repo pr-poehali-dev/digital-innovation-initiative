@@ -172,17 +172,26 @@ function AiReelCard() {
   )
 }
 
+const STATIC_REELS: Reel[] = [
+  { id: 1, title: "Reels 1", video_url: "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/reels/0389117d-d5c4-4033-8917-7bf7575ae8bc.mp4", cover_url: null },
+  { id: 2, title: "Reels 2", video_url: "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/reels/9ebe1850-b2c6-41b8-a06b-b5aaad157bc2.mp4", cover_url: null },
+  { id: 3, title: "Reels 3", video_url: "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/reels/bb772ea4-3955-473e-99dd-0b603d3c5239.mp4", cover_url: null },
+  { id: 4, title: "Reels 4", video_url: "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/reels/77d70396-662a-4266-aa55-62fa9b630880.mp4", cover_url: null },
+  { id: 5, title: "Reels 5", video_url: "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/reels/61e84d6b-0919-4ec7-90b9-0263f3d55fc3.mp4", cover_url: null },
+  { id: 6, title: "Reels 6", video_url: "https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/reels/f5eb81fe-5fd0-481d-8af1-5c98ce312a0a.mp4", cover_url: null },
+]
+
 function SolutionSection() {
-  const [reels, setReels] = useState<Reel[]>([])
-  const [loading, setLoading] = useState(true)
+  const [reels, setReels] = useState<Reel[]>(STATIC_REELS)
 
   useEffect(() => {
     const url = (func2url as Record<string, string>)['reels-get']
-    if (!url) { setLoading(false); return }
-    fetch(url).then(r => r.json()).then(d => { setReels(d.reels || []); setLoading(false) }).catch(() => setLoading(false))
+    if (!url) return
+    fetch(url)
+      .then(r => r.json())
+      .then(d => { if (d.reels && d.reels.length > 0) setReels(d.reels) })
+      .catch(() => {})
   }, [])
-
-  const empty = Array.from({ length: 6 })
 
   return (
     <section className="relative w-full py-20 md:py-28 overflow-hidden">
@@ -193,32 +202,12 @@ function SolutionSection() {
         </h2>
       </div>
 
-      {loading && (
-        <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 md:gap-3 px-6 md:px-16 lg:px-24">
-          {empty.map((_, i) => (
-            <div key={i} className="rounded-2xl bg-neutral-900 animate-pulse" style={{ aspectRatio: '9/16' }} />
-          ))}
-        </div>
-      )}
-
-      {!loading && reels.length === 0 && (
-        <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 md:gap-3 px-6 md:px-16 lg:px-24">
-          {empty.map((_, i) => (
-            <div key={i} className="rounded-2xl border border-neutral-800 border-dashed flex flex-col items-center justify-center text-neutral-600" style={{ aspectRatio: '9/16' }}>
-              <Icon name="Video" size={16} />
-            </div>
-          ))}
-        </div>
-      )}
-
-      {!loading && reels.length > 0 && (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 md:gap-3 px-6 md:px-16 lg:px-24">
-          {reels.map((r) => (
-            <ReelCard key={r.id} reel={r} />
-          ))}
-          <AiReelCard />
-        </div>
-      )}
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 md:gap-3 px-6 md:px-16 lg:px-24">
+        {reels.map((r) => (
+          <ReelCard key={r.id} reel={r} />
+        ))}
+        <AiReelCard />
+      </div>
     </section>
   )
 }
