@@ -39,9 +39,13 @@ function HeroSection() {
         >
           MEDIA
         </h1>
-        <p className="mt-6 text-neutral-300 text-sm md:text-base font-light tracking-widest uppercase">
-          · Монтаж · Сценарии · Аналитика · Продвижение
-        </p>
+        <div className="mt-6 flex flex-col items-center gap-1">
+          {["Монтаж", "Сценарии", "Аналитика", "Продвижение"].map((item) => (
+            <p key={item} className="text-neutral-300 text-sm md:text-base font-light tracking-widest uppercase">
+              · {item}
+            </p>
+          ))}
+        </div>
       </div>
 
       {/* TG button bottom-left */}
