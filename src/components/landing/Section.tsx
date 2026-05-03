@@ -15,22 +15,28 @@ const TG_ICON = (
 function HeroSection() {
   return (
     <section className="relative min-h-screen w-full flex flex-col items-center justify-center overflow-hidden">
-      {/* BG image — black & white */}
+      {/* BG image */}
       <div className="absolute inset-0 z-0">
         <img
-          src="https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/cdc54a7f-006c-4fc5-9bc9-5557069cf334.jpg"
+          src="https://cdn.poehali.dev/projects/b555b565-4c41-4052-8512-2203b8144dac/bucket/f6e2890b-9aa6-4ea4-a999-b94682f0ed85.jpg"
           alt=""
           className="w-full h-full object-cover"
-          style={{ filter: 'grayscale(100%) brightness(0.35)' }}
+          style={{ filter: 'brightness(0.4) saturate(0.7)' }}
         />
-        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/70" />
       </div>
 
       <div className="relative z-20 flex flex-col items-center text-center px-6 w-full">
-        <h1 className="text-[2.8rem] sm:text-7xl md:text-8xl lg:text-[10rem] font-black tracking-tight leading-none text-white">
+        <h1
+          className="text-[2.8rem] sm:text-7xl md:text-8xl lg:text-[10rem] font-black tracking-tight leading-none"
+          style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.55) 60%, rgba(255,255,255,0.25) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}
+        >
           VILMORT
         </h1>
-        <h1 className="text-[2.8rem] sm:text-7xl md:text-8xl lg:text-[10rem] font-black tracking-tight leading-none text-white -mt-2 md:-mt-4">
+        <h1
+          className="text-[2.8rem] sm:text-7xl md:text-8xl lg:text-[10rem] font-black tracking-tight leading-none -mt-2 md:-mt-4"
+          style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.45) 60%, rgba(255,255,255,0.15) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}
+        >
           MEDIA
         </h1>
         <p className="mt-6 text-neutral-300 text-sm md:text-base font-light tracking-widest uppercase">
@@ -71,8 +77,11 @@ function ProblemSection() {
     <section className="relative w-full py-20 md:py-28 px-6 md:px-16 lg:px-24">
       <div className="grid grid-cols-2 gap-6 md:gap-10">
         {questions.map((q, i) => (
-          <div key={i} className="border border-neutral-700 rounded-2xl p-5 md:p-8 bg-white/5 hover:border-neutral-500 transition-all">
-            <p className="text-white font-bold text-lg md:text-3xl leading-tight">{q}</p>
+          <div key={i} className="rounded-2xl p-5 md:p-8 transition-all hover:-translate-y-0.5" style={{ border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.04)', backdropFilter: 'blur(12px)' }}>
+            <p
+          className="font-bold text-lg md:text-3xl leading-tight"
+          style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.55) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}
+        >{q}</p>
           </div>
         ))}
       </div>
@@ -197,7 +206,7 @@ function SolutionSection() {
     <section className="relative w-full py-20 md:py-28 overflow-hidden">
       <div className="px-6 md:px-16 lg:px-24 mb-6 md:mb-10">
         <p className="text-xs tracking-[0.3em] uppercase mb-2" style={{ color: ACCENT }}>Наше решение</p>
-        <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold text-white">
+        <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.5) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
           Монтаж, который работает на тебя.
         </h2>
       </div>
@@ -230,28 +239,21 @@ function ResultsSection() {
   return (
     <section className="relative w-full py-20 md:py-28 px-6 md:px-16 lg:px-24">
       <p className="text-xs tracking-[0.3em] uppercase mb-3" style={{ color: ACCENT }}>Цифры говорят сами</p>
-      <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold text-white mb-8 md:mb-12">
+      <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-8 md:mb-12" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.5) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
         Наши результаты.
       </h2>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-10 md:mb-14">
         {stats.map((s, i) => (
-          <div key={i} className="border border-neutral-700 rounded-xl p-4 md:p-6 bg-white/5 hover:border-neutral-500 transition-all">
-            <p className="text-3xl md:text-5xl font-black text-white">{s.value}</p>
+          <div key={i} className="rounded-xl p-4 md:p-6 transition-all hover:-translate-y-0.5" style={{ border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.04)', backdropFilter: 'blur(12px)' }}>
+            <p
+              className="text-3xl md:text-5xl font-black"
+              style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.5) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}
+            >{s.value}</p>
             <p className="text-neutral-400 text-xs mt-2">{s.label}</p>
           </div>
         ))}
       </div>
-      <div>
-        <p className="text-neutral-500 text-xs tracking-widest uppercase mb-4">Работали с</p>
-        <div className="flex flex-wrap items-center gap-4">
-          {CLIENT_LOGOS.map((src, i) => (
-            <div key={i} className="w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden border-2 border-neutral-600 flex-shrink-0 bg-neutral-800">
-              <img src={src} alt="клиент" className="w-full h-full object-cover" style={{ filter: 'brightness(1.1) contrast(1.1)' }} />
-            </div>
-          ))}
-          <span className="text-neutral-400 text-sm font-medium">и др.</span>
-        </div>
-      </div>
+
     </section>
   )
 }
@@ -280,10 +282,10 @@ function BeforeAfterSection() {
   return (
     <section className="relative w-full py-20 md:py-28 px-6 md:px-16 lg:px-24 overflow-hidden">
       <p className="text-xs tracking-[0.3em] uppercase mb-3" style={{ color: ACCENT }}>Разница очевидна</p>
-      <h2 className="text-2xl sm:text-3xl md:text-5xl font-black text-white mb-8 md:mb-12">
+      <h2 className="text-2xl sm:text-3xl md:text-5xl font-black mb-8 md:mb-12" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.5) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
         НЕКОТОРЫЕ РЕЗУЛЬТАТЫ КЛИЕНТОВ
       </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
         {RESULT_ITEMS.map(({ src, caption }, i) => (
           <div key={i} className="flex flex-col gap-0">
             <div
@@ -331,7 +333,7 @@ function TestimonialsSection() {
   return (
     <section className="relative w-full py-20 md:py-28 px-6 md:px-16 lg:px-24">
       <p className="text-xs tracking-[0.3em] uppercase mb-3" style={{ color: ACCENT }}>Отзывы</p>
-      <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold text-white mb-10 md:mb-14">
+      <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-10 md:mb-14" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.5) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
         Что говорят клиенты.
       </h2>
       <div className="columns-1 sm:columns-2 md:columns-3 gap-8 md:gap-10 space-y-10">
@@ -378,17 +380,19 @@ function BenefitsSection() {
   return (
     <section className="relative w-full py-20 md:py-28 px-6 md:px-16 lg:px-24">
       <p className="text-xs tracking-[0.3em] uppercase mb-3" style={{ color: ACCENT }}>Наши условия</p>
-      <h2 className="text-2xl sm:text-3xl md:text-5xl font-black text-white mb-10 md:mb-14">
+      <h2 className="text-2xl sm:text-3xl md:text-5xl font-black mb-10 md:mb-14" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.5) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
         ЧТО ВЫ ПОЛУЧАЕТЕ?
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 md:gap-6">
         {items.map(({ icon, title, desc }, i) => (
           <div
             key={i}
-            className="relative rounded-2xl p-5 md:p-7 bg-neutral-950 flex flex-col gap-4 transition-all hover:-translate-y-1"
+            className="relative rounded-2xl p-5 md:p-7 flex flex-col gap-4 transition-all hover:-translate-y-1"
             style={{
-              border: `1.5px solid ${ACCENT}55`,
-              boxShadow: `0 0 18px ${ACCENT}18`,
+              border: `1px solid rgba(255,255,255,0.1)`,
+              background: 'rgba(255,255,255,0.04)',
+              backdropFilter: 'blur(12px)',
+              boxShadow: `0 0 18px ${ACCENT}10`,
             }}
           >
             <div
@@ -423,7 +427,7 @@ function CTASection() {
   return (
     <section className="relative w-full py-24 md:py-32 flex flex-col items-center justify-center text-center px-6">
       <p className="text-xs tracking-[0.3em] uppercase mb-6" style={{ color: ACCENT }}>Старт за 1 день</p>
-      <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-black text-white leading-tight mb-8">
+      <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-black leading-tight mb-8" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.5) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
         НАШИ УСЛУГИ
       </h2>
       <div className="inline-flex flex-col items-start gap-3 mb-10">
