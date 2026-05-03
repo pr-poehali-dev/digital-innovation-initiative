@@ -79,13 +79,13 @@ function ProblemSection() {
   ]
   return (
     <section className="relative w-full py-20 md:py-28 px-6 md:px-16 lg:px-24">
-      <div className="grid grid-cols-2 gap-6 md:gap-10">
+      <div className="flex flex-col gap-3 md:gap-5">
         {questions.map((q, i) => (
-          <div key={i} className="rounded-2xl p-5 md:p-8 transition-all hover:-translate-y-0.5" style={{ border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.04)', backdropFilter: 'blur(12px)' }}>
+          <div key={i} className="w-full rounded-2xl p-5 md:p-8 transition-all hover:-translate-y-0.5" style={{ border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.04)', backdropFilter: 'blur(12px)' }}>
             <p
-          className="font-bold text-lg md:text-3xl leading-tight"
-          style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.55) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}
-        >{q}</p>
+              className="font-bold text-xl md:text-3xl leading-tight whitespace-nowrap"
+              style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.55) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}
+            >{q}</p>
           </div>
         ))}
       </div>
@@ -102,9 +102,36 @@ const AI_REEL = {
   caption: "Пример ИИ-ролика для клиента",
 }
 
+function useVideoPoster(src: string, fallback: string | null) {
+  const [poster, setPoster] = useState<string | null>(fallback)
+  useEffect(() => {
+    if (fallback) return
+    const video = document.createElement('video')
+    video.crossOrigin = 'anonymous'
+    video.src = src
+    video.muted = true
+    video.playsInline = true
+    video.preload = 'metadata'
+    const capture = () => {
+      try {
+        const canvas = document.createElement('canvas')
+        canvas.width = video.videoWidth || 360
+        canvas.height = video.videoHeight || 640
+        const ctx = canvas.getContext('2d')
+        if (ctx) { ctx.drawImage(video, 0, 0, canvas.width, canvas.height); setPoster(canvas.toDataURL('image/jpeg', 0.8)) }
+      } catch (_) { /* canvas capture failed */ }
+    }
+    video.addEventListener('seeked', capture)
+    video.addEventListener('loadedmetadata', () => { video.currentTime = 0.1 })
+    return () => { video.removeEventListener('seeked', capture) }
+  }, [src, fallback])
+  return poster
+}
+
 function ReelCard({ reel, accent = ACCENT }: { reel: Reel; accent?: string }) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const [playing, setPlaying] = useState(false)
+  const poster = useVideoPoster(reel.video_url, reel.cover_url)
   const toggle = () => {
     const v = videoRef.current
     if (!v) return
@@ -125,11 +152,11 @@ function ReelCard({ reel, accent = ACCENT }: { reel: Reel; accent?: string }) {
         <video
           ref={videoRef}
           src={reel.video_url}
-          poster={reel.cover_url || undefined}
+          poster={poster || undefined}
           className="absolute inset-0 w-full h-full object-cover"
           loop
           playsInline
-          preload="auto"
+          preload="metadata"
           style={{ filter: 'brightness(1.05) contrast(1.05)' }}
         />
         <div className={`absolute inset-0 bg-black/30 flex items-center justify-center transition-opacity ${playing ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'}`}>
@@ -145,6 +172,7 @@ function ReelCard({ reel, accent = ACCENT }: { reel: Reel; accent?: string }) {
 function AiReelCard() {
   const videoRef = useRef<HTMLVideoElement>(null)
   const [playing, setPlaying] = useState(false)
+  const poster = useVideoPoster(AI_REEL.video_url, null)
   const toggle = () => {
     const v = videoRef.current
     if (!v) return
@@ -167,10 +195,11 @@ function AiReelCard() {
           <video
             ref={videoRef}
             src={AI_REEL.video_url}
+            poster={poster || undefined}
             className="absolute inset-0 w-full h-full object-cover"
             loop
             playsInline
-            preload="auto"
+            preload="metadata"
             style={{ filter: 'brightness(1.05) contrast(1.05)' }}
           />
           <div className={`absolute inset-0 bg-black/30 flex items-center justify-center transition-opacity ${playing ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'}`}>
@@ -310,7 +339,7 @@ function BeforeAfterSection() {
               </div>
             </div>
             {caption && (
-              <p className="text-neutral-400 text-xs mt-2 px-1 leading-snug">{caption}</p>
+              <p className="text-neutral-500 text-[10px] mt-1.5 px-0.5 leading-snug">{caption}</p>
             )}
           </div>
         ))}
@@ -340,11 +369,11 @@ function TestimonialsSection() {
       <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-10 md:mb-14" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.5) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
         Что говорят клиенты.
       </h2>
-      <div className="columns-1 sm:columns-2 md:columns-3 gap-8 md:gap-10 space-y-10">
+      <div className="columns-2 sm:columns-2 md:columns-3 gap-4 md:gap-8 space-y-4 md:space-y-8">
         {REVIEW_IMAGES.map((src, i) => (
           <div
             key={i}
-            className="relative bg-white rounded-sm shadow-2xl break-inside-avoid mb-10 inline-block w-full"
+            className="relative bg-white rounded-sm shadow-2xl break-inside-avoid mb-4 md:mb-10 inline-block w-full"
             style={{
               transform: `rotate(${[-1.5, 1, -0.8, 1.5, -1, 0.7, -1.2][i % 7]}deg)`,
               transformOrigin: 'top center',
@@ -387,11 +416,11 @@ function BenefitsSection() {
       <h2 className="text-2xl sm:text-3xl md:text-5xl font-black mb-10 md:mb-14" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.5) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
         ЧТО ВЫ ПОЛУЧАЕТЕ?
       </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 md:gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
         {items.map(({ icon, title, desc }, i) => (
           <div
             key={i}
-            className="relative rounded-2xl p-5 md:p-7 flex flex-col gap-4 transition-all hover:-translate-y-1"
+            className="relative rounded-2xl p-3 md:p-7 flex flex-col gap-2 md:gap-4 transition-all hover:-translate-y-1"
             style={{
               border: `1px solid rgba(255,255,255,0.1)`,
               background: 'rgba(255,255,255,0.04)',
@@ -400,14 +429,14 @@ function BenefitsSection() {
             }}
           >
             <div
-              className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+              className="w-8 h-8 md:w-10 md:h-10 rounded-xl flex items-center justify-center flex-shrink-0"
               style={{ background: `${ACCENT}20`, border: `1px solid ${ACCENT}55` }}
             >
-              <Icon name={icon} size={18} style={{ color: ACCENT }} />
+              <Icon name={icon} size={15} style={{ color: ACCENT }} />
             </div>
             <div>
-              <p className="text-white font-bold text-base md:text-lg mb-1">{title}</p>
-              <p className="text-neutral-400 text-sm leading-relaxed">{desc}</p>
+              <p className="text-white font-bold text-sm md:text-lg mb-0.5 md:mb-1">{title}</p>
+              <p className="text-neutral-400 text-xs md:text-sm leading-snug md:leading-relaxed">{desc}</p>
             </div>
           </div>
         ))}
